@@ -3,13 +3,13 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import { Root } from "../../pages/root";
 
 export const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<h1>Whatup</h1>}>
-        </Route>
+        <Route path="/" element={<Root />} />
       </Routes>
     </BrowserRouter>
   )

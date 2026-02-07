@@ -23,6 +23,7 @@ export const ChatItem = styled.div`
 
 export const ChatItemDescription = styled.div`
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: .5rem;

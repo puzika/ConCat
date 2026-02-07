@@ -9,7 +9,6 @@ export const Sidebar = styled.nav`
   display: flex;
   flex-direction: column;
   background-color: ${vars.primaryClr};
-  overflow-y: auto;
 `;
 
 export const SidebarHeader = styled.div`

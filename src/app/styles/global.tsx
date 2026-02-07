@@ -12,6 +12,28 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-color: ${vars.primaryClrLtr} ${vars.primaryClrLt};
+      scrollbar-width: thin;
+      scrollbar-gutter: stable;
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: .4rem;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: ${vars.primaryClrLtr};
+    border-radius: 10rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: ${vars.primaryClrLt};
+    border-radius: 10rem;
+  }
+
   html {
     font-size: 62.5%;
   }

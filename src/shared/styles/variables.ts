@@ -6,3 +6,5 @@ export const secondaryClr = "#579bde";
 
 export const fontClr = "#dae6f9";
 export const fontClrLt = "#9cc0ef";
+
+export const sidebarYPadding = "1rem";

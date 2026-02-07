@@ -6,11 +6,10 @@ export const Sidebar = styled.nav`
   min-width: 30rem;
   width: 25%;
   background-color: ${vars.primaryClr};
-  padding: 0 1rem;
 `;
 
 export const SidebarHeader = styled.div`
   display: flex;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem ${vars.sidebarYPadding};
 `;

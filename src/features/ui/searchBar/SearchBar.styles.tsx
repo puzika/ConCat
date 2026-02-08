@@ -3,6 +3,7 @@ import { vars } from "../../../shared/styles";
 
 export const SearchForm = styled.form`
   flex: 1;
+  height: 100%;
   display: flex;
   align-items: center;
   background-color: ${vars.primaryClrLt};
@@ -10,7 +11,9 @@ export const SearchForm = styled.form`
 `;
 
 export const SearchBar = styled.input`
+  display: flex;
   width: 100%;
+  height: 100%;
   padding: 1rem 1.8rem;
   background-color: transparent;
 
@@ -21,7 +24,9 @@ export const SearchBar = styled.input`
 
 export const SearchClearBtn = styled.button`
   display: flex;
-  padding: .5rem 1rem;
+  align-items: center;
+  height: 100%;
   background-color: transparent;
+  padding: 0 1rem;
   cursor: pointer;
 `;

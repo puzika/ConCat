@@ -9,13 +9,15 @@ export const Sidebar = styled.nav`
   display: flex;
   flex-direction: column;
   background-color: ${vars.primaryClr};
+  border-right: .1rem solid ${vars.primaryClrDk};
   overflow: hidden;
 `;
 
 export const SidebarHeader = styled.div`
   display: flex;
+  height: 5.8rem;
   align-items: center;
-  padding: 1rem ${vars.sidebarYPadding};
+  padding: ${vars.primaryPadding};
 `;
 
 export const SidebarChats = styled.ul`

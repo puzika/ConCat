@@ -12,7 +12,7 @@ export const ChatItem = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: .8rem ${vars.sidebarYPadding};
+  padding: .8rem ${vars.primaryPadding};
   cursor: pointer;
   transition: background-color .2s;
 
@@ -35,7 +35,7 @@ export const ChatItemName = styled.p`
 `;
 
 export const ChatItemLastMessage = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: ${vars.fontClrLt};
   ${ ellipsis };
 `

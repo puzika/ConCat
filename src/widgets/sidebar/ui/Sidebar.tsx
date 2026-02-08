@@ -2,25 +2,12 @@ import { useRef, useState } from 'react';
 import { SearchBar } from '../../../features/ui';
 import { ChatItem } from '../../../entities/ui';
 import { ScrollBtn } from '../../../features/ui';
+import { handleScrollUp } from '../../../shared/lib/utils/handlers';
 import * as S from './Sidebar.styles';
 
 export const Sidebar = () => {
-  console.log('re-rendered sidebar');
-
   const scrollTargetRef = useRef<HTMLUListElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
-
-  const handleScroll = () => {
-    const target = scrollTargetRef.current;
-
-    if (!target) return;
-
-    const height = target.offsetHeight;
-    const scrolled = target.scrollTop;
-    const shouldBeVisible = scrolled > height / 2;
-
-    setScrollBtnVisible(shouldBeVisible);
-  }
 
   const chats = [];
 
@@ -35,7 +22,7 @@ export const Sidebar = () => {
       </S.SidebarHeader>
       <S.SidebarChats 
         ref={scrollTargetRef}
-        onScroll={handleScroll}
+        onScroll={handleScrollUp.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >
         { chats }
       </S.SidebarChats>

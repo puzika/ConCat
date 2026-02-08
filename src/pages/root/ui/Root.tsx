@@ -1,9 +1,12 @@
+import { Outlet } from "react-router-dom";
 import { Sidebar } from "../../../widgets/sidebar";
+import * as S from './Root.styles';
 
-export const Root = () => {
+export const RootPage = () => {
   return (
-    <div>
+    <S.Root>
       <Sidebar />
-    </div>
+      <Outlet />
+    </S.Root>
   )
 }

@@ -1,3 +1,4 @@
+import type { RefObject } from 'react';
 import { 
   IoIosArrowDown as DownArrow, 
   IoIosArrowUp as UpArrow 
@@ -6,23 +7,34 @@ import * as S from './ScrollBtn.style';
 
 type ScrollBtn = {
   direction: 'up' | 'down',
-  target: HTMLElement | null,
+  targetRef: RefObject<HTMLElement | null>,
+  visible: boolean,
 }
 
-export const ScrollBtn = ({ direction, target }: ScrollBtn) => {
+export const ScrollBtn = ({ direction, targetRef, visible }: ScrollBtn) => {
   const handleScrollUp = () => {
-    target?.scrollTo({ top: 0, behavior: 'smooth' });
+    const target = targetRef.current;
+    
+    target?.scrollTo({ 
+      top: 0, 
+      behavior: 'smooth' 
+    });
   }
 
   const handleScrollDown = () => {
-    console.log(target?.scrollHeight);
-    target?.scrollTo({ top: target.scrollHeight, behavior: 'smooth' });
+    const target = targetRef.current;
+    
+    target?.scrollTo({ 
+      top: target.scrollHeight, 
+      behavior: 'smooth' 
+    });
   }
 
   const handler = direction === 'up' ? handleScrollUp : handleScrollDown;
 
   return (
     <S.ScrollBtn 
+      $visible={visible}
       $direction={direction} 
       aria-label={`scroll-${direction} button`}
       onClick={handler}

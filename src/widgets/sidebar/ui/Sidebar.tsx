@@ -1,16 +1,26 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { SearchBar } from '../../../features/ui';
 import { ChatItem } from '../../../entities/ui';
 import { ScrollBtn } from '../../../features/ui';
 import * as S from './Sidebar.styles';
 
 export const Sidebar = () => {
-  const scrollTargetRef = useRef<HTMLUListElement>(null);
-  const [scrollTarget, setScrollTarget] = useState<HTMLUListElement | null>(null);
+  console.log('re-rendered sidebar');
 
-  useEffect(() => {
-    setScrollTarget(scrollTargetRef.current);
-  }, []);
+  const scrollTargetRef = useRef<HTMLUListElement>(null);
+  const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
+
+  const handleScroll = () => {
+    const target = scrollTargetRef.current;
+
+    if (!target) return;
+
+    const height = target.offsetHeight;
+    const scrolled = target.scrollTop;
+    const shouldBeVisible = scrolled > height / 2;
+
+    setScrollBtnVisible(shouldBeVisible);
+  }
 
   const chats = [];
 
@@ -23,10 +33,17 @@ export const Sidebar = () => {
       <S.SidebarHeader>
         <SearchBar />
       </S.SidebarHeader>
-      <S.SidebarChats ref={scrollTargetRef}>
+      <S.SidebarChats 
+        ref={scrollTargetRef}
+        onScroll={handleScroll}
+      >
         { chats }
       </S.SidebarChats>
-      <ScrollBtn target={scrollTarget} direction='up' />
+      <ScrollBtn 
+        direction='up' 
+        targetRef={scrollTargetRef}
+        visible={scrollBtnVisible}
+      />
     </S.Sidebar>
   )
 }

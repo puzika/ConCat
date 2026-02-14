@@ -41,6 +41,6 @@ export const Message = styled.article<{ $messageType: 'sent' | 'received'}>`
 export const MessageTimestamp = styled.span`
   display: flex;
   justify-content: flex-end;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: ${vars.fontClrLt};
 `;

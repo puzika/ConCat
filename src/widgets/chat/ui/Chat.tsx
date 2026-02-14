@@ -1,5 +1,10 @@
 import { useRef, useState } from 'react';
-import { ScrollBtn } from '../../../features/ui';
+import { 
+  ScrollBtn, 
+  AttachmentBtn, 
+  MessageInput, 
+  SendBtn 
+} from '../../../features/ui';
 import { handleScrollDown } from '../../../shared/lib/utils/handlers';
 import * as S from './Chat.styles';
 
@@ -61,7 +66,11 @@ const ChatWindow = () => {
 
 const ChatInput = () => {
   return (
-    <S.ChatInputSection></S.ChatInputSection>
+    <S.ChatInputSection>
+      <AttachmentBtn />
+      <MessageInput placeholder='Write a message...' name="message" />
+      <SendBtn clickable />
+    </S.ChatInputSection>
   )
 }
 

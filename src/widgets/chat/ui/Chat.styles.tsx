@@ -6,6 +6,7 @@ export const Chat = styled.div`
   flex-direction: column;
   flex: 1;
   max-height: 100vh;
+  overflow-x: hidden;
 `;
 
 export const ChatPanel = styled.div`
@@ -13,6 +14,8 @@ export const ChatPanel = styled.div`
   height: ${vars.panelHeight};
   background-color: ${vars.primaryClr};
   padding: ${vars.primaryPadding};
+  box-shadow: 0 .2rem .8rem 0 ${vars.primaryClrDk};
+  z-index: 10;
 `;
 
 export const ChatPanelUserInfo = styled.div`
@@ -47,9 +50,13 @@ export const ChatMessages = styled.div`
 `;
 
 export const ChatInputSection = styled.form`
-  height: 5rem;
+  display: flex;
+  align-items: flex-end;
+  min-height: 5rem;
   width: 100%;
   background-color: ${vars.primaryClr};
+  box-shadow: 0 -.2rem .8rem 0 ${vars.primaryClrDk};
+  z-index: 10;
 `;
 
 export const ChatMessage = styled.article<{ $messageType: 'sent' | 'received' }>`

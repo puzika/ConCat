@@ -11,7 +11,6 @@ export const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<RootPage />}>
-          <Route index element={<p>Whatup</p>} />
           <Route path="chat" element={<ChatPage />} />
         </Route>
       </Routes>

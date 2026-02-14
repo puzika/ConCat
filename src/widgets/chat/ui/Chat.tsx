@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { 
   ScrollBtn, 
   AttachmentBtn, 
   MessageInput, 
   SendBtn 
 } from '../../../features/ui';
+import { Message } from '../../../entities/ui';
 import { handleScrollDown } from '../../../shared/lib/utils/handlers';
 import * as S from './Chat.styles';
 
@@ -19,33 +20,30 @@ const ChatPanel = () => {
   )
 }
 
-type MessageProps = {
-  messageType: 'sent' | 'received',
-  content: string,
-}
-
-const Message = ({ messageType, content }: MessageProps) => {
-  return (
-    <S.ChatMessage $messageType={messageType}>
-      { content }
-    </S.ChatMessage>
-  )
-}
-
 const ChatWindow = () => {
   const scrollTargetRef = useRef<HTMLDivElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
+  const messages = useMemo(() => {
+    const msgs = [];
 
-  const messages = [];
+    for (let i = 0; i < 100; i++) {
+      const messageType = Math.random() < 0.5 ? 'received' : 'sent';
+      const message = messageType === 'sent' ?
+        'You sent a message ' + i :
+        'User sent you a message ' + i;
 
-  for (let i = 0; i < 100; i++) {
-    const messageType = Math.random() < 0.5 ? 'received' : 'sent';
-    const message = messageType === 'sent' ?
-      'You sent a message ' + i :
-      'User sent you a message ' + i;
+      msgs.push(
+        <Message 
+          key={i} 
+          messageType={messageType} 
+          message={message}
+          timestamp='12:30 AM'
+        />
+      );
+    }
 
-    messages.push(<Message key={i} messageType={messageType} content={message} />)
-  }
+    return msgs;
+  }, []);
 
   return (
     <S.ChatWindow >

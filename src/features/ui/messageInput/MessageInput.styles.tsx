@@ -34,7 +34,7 @@ export const Text = styled.p`
   }
 
   @supports not selector(::-webkit-scrollbar) {
-    scrollbar-width: thin;
+    scrollbar-width: none;
   }
 `;
 

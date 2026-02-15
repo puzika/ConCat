@@ -19,9 +19,9 @@ export const Message = styled.article<{ $messageType: 'sent' | 'received'}>`
     border-color: transparent;
     border-color: transparent;
     border-bottom-color: ${p => p.$messageType === 'sent' ? vars.primaryClr : vars.primaryClrLtr};
-    border-bottom-width: 1.2rem;
-    border-left-width: .8rem;
-    border-right-width: .8rem;
+    border-bottom-width: 1.1rem;
+    border-left-width: 1rem;
+    border-right-width: 1rem;
   }
 
   &::before {

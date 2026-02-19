@@ -1,11 +1,9 @@
 import { useRef, useState, useMemo } from 'react';
-import { 
-  ScrollBtn, 
-  AttachmentBtn, 
-  MessageInput, 
-  SendBtn 
-} from '../../../features/ui';
-import { Message } from '../../../entities/ui';
+import { AttachmentBtn } from '../../../features/attachmentBtn';
+import { MessageInput } from '../../../features/messageInput';
+import { ScrollBtn } from '../../../features/scrollBtn';
+import { SendBtn } from '../../../features/sendBtn';
+import { Message } from '../../../entities/message';
 import { handleScrollDown } from '../../../shared/lib/utils/handlers';
 import * as S from './Chat.styles';
 

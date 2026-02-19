@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { SearchBar } from '../../../features/ui';
-import { ChatItem } from '../../../entities/ui';
-import { ScrollBtn } from '../../../features/ui';
+import { ChatItem } from '../../../entities/chatItem';
+import { SearchBar } from '../../../features/searchBar';
+import { ScrollBtn } from '../../../features/scrollBtn';
 import { handleScrollUp } from '../../../shared/lib/utils/handlers';
 import * as S from './Sidebar.styles';
 

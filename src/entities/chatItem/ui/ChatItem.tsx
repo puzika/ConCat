@@ -1,5 +1,5 @@
-import { Avatar } from '../../../shared/ui/avatar/Avatar';
 import * as S from './ChatItem.styles';
+import { Avatar } from '../../../shared/ui/avatar/Avatar';
 
 export const ChatItem = () => {
   return (

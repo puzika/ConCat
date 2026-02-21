@@ -12,32 +12,22 @@ type ScrollBtn = {
 }
 
 export const ScrollBtn = ({ direction, targetRef, visible }: ScrollBtn) => {
-  const handleScrollUp = () => {
+  const handleClick = () => {
     const target = targetRef.current;
     
     target?.scrollTo({ 
-      top: 0, 
+      top: direction === 'up' ? 0 : target.scrollHeight, 
       behavior: 'smooth' 
     });
   }
-
-  const handleScrollDown = () => {
-    const target = targetRef.current;
-    
-    target?.scrollTo({ 
-      top: target.scrollHeight, 
-      behavior: 'smooth' 
-    });
-  }
-
-  const handler = direction === 'up' ? handleScrollUp : handleScrollDown;
 
   return (
     <S.ScrollBtn 
+      data-testid="scroll-btn"
       $visible={visible}
       $direction={direction} 
       aria-label={`scroll-${direction} button`}
-      onClick={handler}
+      onClick={handleClick}
     >
       { 
         direction === 'up' ? (

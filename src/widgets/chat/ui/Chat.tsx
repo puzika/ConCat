@@ -46,6 +46,7 @@ const ChatWindow = () => {
   return (
     <S.ChatWindow >
       <S.ChatMessages 
+        data-testid="chat-messages"
         ref={scrollTargetRef}
         onScroll={handleScrollDown.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >

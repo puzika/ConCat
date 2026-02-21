@@ -1,1 +1,1 @@
-export { ScrollBtn } from './utils/ScrollBtn';
+export { ScrollBtn } from './ui/ScrollBtn';

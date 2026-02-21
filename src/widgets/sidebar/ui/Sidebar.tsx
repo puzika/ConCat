@@ -11,7 +11,7 @@ export const Sidebar = () => {
 
   const chats = [];
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 50; i++) {
     chats.push(<li key={i}><ChatItem /></li>);
   }
 
@@ -20,7 +20,8 @@ export const Sidebar = () => {
       <S.SidebarHeader>
         <SearchBar />
       </S.SidebarHeader>
-      <S.SidebarChats 
+      <S.SidebarChats
+        data-testid="sidebar-chats"
         ref={scrollTargetRef}
         onScroll={handleScrollUp.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >

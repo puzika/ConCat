@@ -9,7 +9,7 @@ type PasswordButtonProps = {
 
 const PasswordButton = ({ clickHandler, hidden }: PasswordButtonProps) => {
   return (
-    <S.PasswordButton type="button" onClick={clickHandler}>
+    <S.PasswordButton data-testid="hide-btn" type="button" onClick={clickHandler}>
       { hidden ? <HidePassword /> : <ShowPassword /> }
     </S.PasswordButton>
   )
@@ -39,7 +39,8 @@ export const Input = ({name, placeholder, inputType}: InputProps) => {
   return (
     <S.Input>
       <S.InputLabel className={ value.trim() ? 'filled' : '' }>{ placeholder }</S.InputLabel>
-      <S.InputField 
+      <S.InputField
+        data-testid="input-field"
         value={value} 
         onChange={handleChange} 
         name={name} 

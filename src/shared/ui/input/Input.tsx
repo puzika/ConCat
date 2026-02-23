@@ -18,6 +18,7 @@ const PasswordButton = ({ clickHandler, hidden }: PasswordButtonProps) => {
 
 type InputProps = {
   error?: FieldError,
+  testid?: string,
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -27,6 +28,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       type, 
       onChange,
       error,
+      testid,
       ...rest
     } = props;
 
@@ -45,7 +47,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       type;
 
     return (
-      <S.Input>
+      <S.Input data-testid={testid}>
         <S.InputLabel className={ filled ? 'filled' : '' }>{ placeholder }</S.InputLabel>
         <S.InputField
           {...rest}

@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { vars } from "../../../shared/styles";
 
 export const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
   width: 100%;
   padding: 1rem;
   margin-top: 1rem;

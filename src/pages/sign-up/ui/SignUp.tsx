@@ -4,19 +4,22 @@ import { Form } from "../../../widgets/form"
 import { Input } from "../../../shared/ui/input/Input"
 import { Button } from "../../../shared/ui/button/Button"
 import { Alternative } from "../../../shared/ui/alternative/Alternative"
+import { Spinner } from "../../../shared/ui/spinner/Spinner"
 import { signUpSchema, type TSignUpSchema } from "../model/definitions"
 
 export const SignUpPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    reset,
+    formState: { errors, isSubmitting }
   } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
   });
 
   const submitHandler = async (data: TSignUpSchema) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
+    reset();
   }
 
   return (
@@ -26,26 +29,44 @@ export const SignUpPage = () => {
           {...register("username")} 
           placeholder="Username" 
           error={errors.username}
+          testid="username"
         />
         <Input 
           {...register("email")}
           placeholder="Email" 
           error={errors.email}
+          testid="email"
         />
         <Input
           {...register("password")}
           placeholder="Password" 
           type="password" 
           error={errors.password}
+          testid="password"
         />
         <Input
           {...register("confirmPassword")}
           placeholder="Confirm password" 
           type="password"
           error={errors.confirmPassword}
+          testid="confirmPassword"
         />
-        <Button buttonType='submit' name={"Sign up"} />
-        { isSubmitting && <p>Submitting...</p>}
+        <Button 
+          disabled={isSubmitting} 
+          buttonType='submit'
+          testid="submit-btn"
+        >
+          {
+            isSubmitting ? (
+              <>
+                <Spinner />
+                <span>Loading</span>
+              </>
+            ) : (
+              <span>Sign up</span>
+            )
+          }
+        </Button>
       </Form>
       <Alternative 
         message={"Already have an account?"}

@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import "@testing-library/jest-dom/jest-globals";
 import { it, describe, expect, beforeEach } from "@jest/globals";
 import { fireEvent, render, screen } from "@testing-library/react";

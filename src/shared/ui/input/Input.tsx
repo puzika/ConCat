@@ -1,4 +1,5 @@
-import { useState, type ChangeEvent } from 'react'
+import type { FieldError } from 'react-hook-form';
+import { useState, forwardRef, type ChangeEvent, type InputHTMLAttributes } from 'react'
 import { BiSolidHide as HidePassword, BiSolidShow as ShowPassword } from "react-icons/bi";
 import * as S from './Input.styles'
 
@@ -16,43 +17,55 @@ const PasswordButton = ({ clickHandler, hidden }: PasswordButtonProps) => {
 }
 
 type InputProps = {
-  name: string,
-  placeholder: string,
-  inputType: 'text' | 'password',
-}
+  error?: FieldError,
+} & InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = ({name, placeholder, inputType}: InputProps) => {
-  const [hide, setHide] = useState<boolean>(true);
-  const [value, setValue] = useState<string>('');
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  (props, ref) => {
+    const {
+      placeholder, 
+      type, 
+      onChange,
+      error,
+      ...rest
+    } = props;
 
-  let fieldType = inputType;
+    const [hide, setHide] = useState<boolean>(type === 'password');
+    const [filled, setFilled] = useState<boolean>(false);
 
-  if (inputType === 'password') {
-    fieldType = hide ? 'password' : 'text';
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.currentTarget;
+      setFilled(value !== "");
+      
+      if (onChange) onChange(e);
+    }
+
+    const inputType = type === 'password' ?
+      (hide ? 'password' : 'text') :
+      type;
+
+    return (
+      <S.Input>
+        <S.InputLabel className={ filled ? 'filled' : '' }>{ placeholder }</S.InputLabel>
+        <S.InputField
+          {...rest}
+          ref={ref}
+          data-testid="input-field"
+          onChange={handleChange}
+          type={inputType}
+        />
+        { 
+          type === 'password' && 
+          <PasswordButton 
+            clickHandler={() => setHide(!hide)} 
+            hidden={hide} 
+          /> 
+        }
+        {
+          error && 
+          <S.InputError>{error.message}</S.InputError>
+        }
+      </S.Input>
+    )
   }
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-    setValue(value);
-  }
-
-  return (
-    <S.Input>
-      <S.InputLabel className={ value.trim() ? 'filled' : '' }>{ placeholder }</S.InputLabel>
-      <S.InputField
-        data-testid="input-field"
-        value={value} 
-        onChange={handleChange} 
-        name={name} 
-        type={fieldType} 
-      />
-      { 
-        inputType === 'password' && 
-        <PasswordButton 
-          clickHandler={() => setHide(!hide)} 
-          hidden={hide} 
-        /> 
-      } 
-    </S.Input>
-  )
-}
+)

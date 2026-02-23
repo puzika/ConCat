@@ -56,3 +56,12 @@ export const PasswordButton = styled.button`
     color: ${vars.secondaryClr};
   }
 `;
+
+export const InputError = styled.p`
+  position: absolute;
+  top: 100%;
+  left: 0.2rem;
+  translate: 0 .5rem;
+  font-size: 1rem;
+  color: ${vars.errorClr};
+`;

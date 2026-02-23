@@ -12,8 +12,6 @@ describe("Input", () => {
   beforeEach(() => {
     render(
       <Input 
-        name="password" 
-        placeholder="password" 
         inputType="password"
       />
     );

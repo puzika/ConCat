@@ -6,11 +6,13 @@ type ButtonProps = {
   children: ReactNode | ReactNode[],
   disabled?: boolean,
   testid?: string,
+  handler?: (...args: unknown[]) => void,
 }
 
-export const Button = ({ buttonType, children, disabled, testid }: ButtonProps) => {
+export const Button = ({ buttonType, children, disabled, testid, handler }: ButtonProps) => {
   return (
     <S.Button
+      onClick={handler}
       disabled={disabled} 
       type={buttonType}
       data-testid={testid}

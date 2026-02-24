@@ -20,7 +20,17 @@ export const SidebarHeader = styled.div`
   padding: ${vars.primaryPadding};
 `;
 
-export const SidebarChats = styled.ul`
+export const SidebarChatsContainer = styled.div`
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  overflow: hidden;
+`;
+
+export const SidebarChats = styled.ul`
+  height: 100%;
+  width: 100%;
   overflow-y: auto;
-`
+`;

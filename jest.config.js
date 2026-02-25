@@ -1,6 +1,6 @@
-const config = {
-  testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+export default {
+  testEnvironment: 'jest-fixed-jsdom',
+  transformIgnorePatterns: [
+    "node_modules/(?!until-async/)"
+  ],
 };
-
-export default config;

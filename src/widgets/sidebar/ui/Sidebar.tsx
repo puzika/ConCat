@@ -7,7 +7,7 @@ import { Spinner } from '../../../shared/ui/spinner/Spinner';
 import { ErrorMessage } from '../../../shared/ui/errorMessage/ErrorMessage';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { handleScrollUp } from '../../../shared/lib/utils/handlers';
-import { useUsers } from '../../../shared/api/users/users.query';
+import { useUsers } from '../../../shared/api/queries/users.query';
 import { AxiosError } from 'axios';
 import * as S from './Sidebar.styles';
 

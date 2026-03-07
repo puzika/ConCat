@@ -8,11 +8,14 @@ import { ErrorMessage } from '../../../shared/ui/errorMessage/ErrorMessage';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { handleScrollUp } from '../../../shared/lib/utils/handlers';
 import { useUsers } from '../../../shared/api/queries/users.query';
+import { useAppSelector } from '../../../shared/lib/store';
+import { selectUserId } from '../../../entities/user/model/user.slice';
 import { AxiosError } from 'axios';
 import * as S from './Sidebar.styles';
 
 const Chats = () => {
-  const { data } = useUsers();
+  const id = useAppSelector(selectUserId);
+  const { data } = useUsers(id);
   const scrollTargetRef = useRef<HTMLUListElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
 

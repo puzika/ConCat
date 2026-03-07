@@ -4,9 +4,9 @@ import { baseUrl } from "../url";
 import { userArraySchema, type User } from "../../model/definitions";
 
 const usersQueryFunction = async () => {
-  const response = await axios.get<{ users: User[] }>(`${baseUrl}/users`);
+  const response = await axios.get<{ users: User[] }>(`${baseUrl}/users?connectedTo=2`);
   const { data } = response;
-  const users = userArraySchema.parse(data.users);
+  const users = userArraySchema.parse(data);
 
   return users;
 }

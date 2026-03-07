@@ -12,7 +12,7 @@ const ChatPanel = () => {
     <S.ChatPanel>
       <S.ChatPanelUserInfo>
         <S.ChatPanelUserName>Nanajon</S.ChatPanelUserName>
-        <S.ChatPanelUserLastSeen>Last seen today at 12:37 AM</S.ChatPanelUserLastSeen>
+        <S.ChatPanelUserLastSeen>Last seen recently</S.ChatPanelUserLastSeen>
       </S.ChatPanelUserInfo>
     </S.ChatPanel>
   )

@@ -10,7 +10,7 @@ afterAll(() => server.close());
 
 describe("Users", () => {
   it("should return 2 objects", async () => {
-    const { result } = renderHook(() => useUsers(), { wrapper: QueryWrapper });
+    const { result } = renderHook(() => useUsers('1'), { wrapper: QueryWrapper });
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 

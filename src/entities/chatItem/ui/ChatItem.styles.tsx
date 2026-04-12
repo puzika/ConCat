@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { vars } from "../../../shared/styles";
+import { Link } from "react-router-dom";
 
 const ellipsis = css`
   max-width: 95%;
@@ -8,7 +9,7 @@ const ellipsis = css`
   overflow: hidden;
 `;
 
-export const ChatItem = styled.div`
+export const ChatItem = styled(Link)`
   display: flex;
   align-items: center;
   gap: 1rem;

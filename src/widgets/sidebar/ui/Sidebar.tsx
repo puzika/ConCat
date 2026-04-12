@@ -20,7 +20,7 @@ const Chats = () => {
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
 
   const chats = data.map(user => (
-    <li key={user.id}>
+    <li key={user.userId}>
       <ChatItem
         chatname={ user.username }
         mostRecentMsg='Most recent message in the chat'

@@ -8,7 +8,7 @@ type ChatItemProps = {
 
 export const ChatItem = ({ chatname, mostRecentMsg }: ChatItemProps) => {
   return (
-    <S.ChatItem>
+    <S.ChatItem to={'/chat'}>
       <Avatar />
       <S.ChatItemDescription>
         <S.ChatItemName>{ chatname }</S.ChatItemName>

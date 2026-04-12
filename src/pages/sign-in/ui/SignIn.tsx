@@ -6,7 +6,7 @@ import { Button } from "../../../shared/ui/button/Button"
 import { Alternative } from "../../../shared/ui/alternative/Alternative"
 import { Spinner } from "../../../shared/ui/spinner/Spinner"
 import { useAppDispatch } from "../../../shared/lib/store"
-import { updateUserInfo } from "../../../entities/user/model/user.slice"
+import { updateUserInfo } from "../../../entities/user"
 import { useNavigate } from "react-router-dom"
 import { signInSchema, type TSignInSchema } from "../model/definitions"
 

@@ -9,7 +9,7 @@ import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { handleScrollUp } from '../../../shared/lib/utils/handlers';
 import { useUsers } from '../../../shared/api/queries/users.query';
 import { useAppSelector } from '../../../shared/lib/store';
-import { selectUserId } from '../../../entities/user/model/user.slice';
+import { selectUserId } from '../../../entities/user';
 import { AxiosError } from 'axios';
 import * as S from './Sidebar.styles';
 

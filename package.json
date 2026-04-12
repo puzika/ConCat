@@ -24,6 +24,7 @@
     "react-icons": "^5.5.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.0",
+    "socket.io-client": "^4.8.3",
     "styled": "^1.0.0",
     "styled-components": "^6.3.8",
     "zod": "^4.3.6"

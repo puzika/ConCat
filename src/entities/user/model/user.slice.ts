@@ -21,7 +21,7 @@ const userSlice = createSlice({
 
 export const { updateUserInfo } = userSlice.actions;
 
-export const selectUserId = (state: RootState) => state.userSlice.id;
-export const selectUsername = (state: RootState) => state.userSlice.username;
+export const selectUserId = (state: RootState) => state.userReducer.id;
+export const selectUsername = (state: RootState) => state.userReducer.username;
 
-export default userSlice.reducer;
+export const { reducer: userReducer } = userSlice;

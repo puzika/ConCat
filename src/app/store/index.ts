@@ -1,7 +1,11 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import userSlice from "../../entities/user/model/user.slice";
+import userReducer from "../../entities/user";
+import realtimeReducer from "../../features/realtime";
 
-const rootReducer = combineReducers({ userSlice });
+const rootReducer = combineReducers({ 
+  userReducer,
+  realtimeReducer,
+});
 
 export const store = configureStore({
   reducer: rootReducer,

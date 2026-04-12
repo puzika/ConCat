@@ -16,6 +16,4 @@ const usersQueryOptions = (id: string) => queryOptions({
   queryFn: () => usersQueryFunction(id),
 });
 
-export const useUsers = (id: string) => {
-  return useSuspenseQuery(usersQueryOptions(id));
-}
+export const useUsers = (id: string) => useSuspenseQuery(usersQueryOptions(id));

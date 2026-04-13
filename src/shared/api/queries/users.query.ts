@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { baseUrl } from "../url";
-import { userArraySchema } from "../../model/definitions";
+import { userListSchema } from "../../model/userSchema";
 
 const usersQueryFunction = async (id: number) => {
   const response = await axios.get(`${baseUrl}/users/${id}`);
   const { data } = response;
-  const users = userArraySchema.parse(data);
+  const users = userListSchema.parse(data);
 
   return users;
 }

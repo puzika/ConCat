@@ -8,4 +8,4 @@ export const userSchema = z.object({
 
 export type User = z.infer<typeof userSchema>;
 
-export const userArraySchema = z.array(userSchema);
+export const userListSchema = z.array(userSchema);

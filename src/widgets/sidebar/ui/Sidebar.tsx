@@ -22,6 +22,7 @@ const Chats = () => {
   const chats = data.map(user => (
     <li key={user.userId}>
       <ChatItem
+        chatId={user.chatId}
         chatname={ user.username }
         mostRecentMsg='Most recent message in the chat'
       />

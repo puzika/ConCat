@@ -1,47 +1,41 @@
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useMessages } from '../../../shared/api/queries/chat.query';
 import { AttachmentBtn } from '../../../features/attachmentBtn';
 import { MessageInput } from '../../../features/messageInput';
 import { ScrollBtn } from '../../../features/scrollBtn';
 import { SendBtn } from '../../../features/sendBtn';
 import { Message } from '../../../entities/message';
+import { Spinner } from '../../../shared/ui/spinner/Spinner.styles';
 import { handleScrollDown } from '../../../shared/lib/utils/handlers';
+import { type Message as TMessage } from '../../../shared/model/messagesSchema';
 import * as S from './Chat.styles';
 
-const ChatPanel = () => {
+type ChatPanelProps = {
+  username?: string,
+  lastSeen?: string,
+  isLoading: boolean,
+}
+
+const ChatPanel = ({ isLoading, username, lastSeen }: ChatPanelProps) => {
   return (
     <S.ChatPanel>
       <S.ChatPanelUserInfo>
-        <S.ChatPanelUserName>Nanajon</S.ChatPanelUserName>
-        <S.ChatPanelUserLastSeen>Last seen recently</S.ChatPanelUserLastSeen>
+        <S.ChatPanelUserName>{ isLoading ? "Connecting..." : username }</S.ChatPanelUserName>
+        <S.ChatPanelUserLastSeen>Last seen { isLoading ? "..." : lastSeen }</S.ChatPanelUserLastSeen>
       </S.ChatPanelUserInfo>
     </S.ChatPanel>
   )
 }
 
-const ChatWindow = () => {
+type ChatWindowProps = {
+  messages?: TMessage[],
+  isLoading: boolean,
+}
+
+const ChatWindow = ({ messages }: ChatWindowProps) => {
   const scrollTargetRef = useRef<HTMLDivElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
-  const messages = useMemo(() => {
-    const msgs = [];
-
-    for (let i = 0; i < 100; i++) {
-      const messageType = Math.random() < 0.5 ? 'received' : 'sent';
-      const message = messageType === 'sent' ?
-        'You sent a message ' + i :
-        'User sent you a message ' + i;
-
-      msgs.push(
-        <Message 
-          key={i} 
-          messageType={messageType} 
-          message={message}
-          timestamp='12:30 AM'
-        />
-      );
-    }
-
-    return msgs;
-  }, []);
 
   return (
     <S.ChatWindow >
@@ -50,7 +44,22 @@ const ChatWindow = () => {
         ref={scrollTargetRef}
         onScroll={handleScrollDown.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >
-        { messages }
+        { messages ? (
+            messages.map(({ id, type, content, chat_id, sender_id }) => (
+              <Message 
+                key={id}
+                messageType={'sent'}
+                message={content}
+                timestamp=''
+              />
+            ))
+          ) : (
+            <>
+              <Spinner />
+              <p>Loading messages...</p>
+            </>
+          )
+        }
       </S.ChatMessages>
       <ScrollBtn 
         direction='down'
@@ -72,10 +81,22 @@ const ChatInput = () => {
 }
 
 export const Chat = () => {
+  const { chatId } = useParams();
+  const { data, isLoading, isError, error } = useMessages(Number(chatId));
+
+  console.log(isLoading, isError, data, error);
+
   return (
     <S.Chat>
-      <ChatPanel />
-      <ChatWindow />
+      <ChatPanel
+        isLoading={isLoading}
+        username={"Nanajon"}
+        lastSeen={"recently"}
+      />
+      <ChatWindow 
+        messages={data}
+        isLoading={isLoading}
+      />
       <ChatInput />
     </S.Chat>
   )

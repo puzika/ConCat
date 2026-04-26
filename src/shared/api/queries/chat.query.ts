@@ -1,20 +1,20 @@
 import axios from "axios";
 import { useQuery, queryOptions } from "@tanstack/react-query";
 import { baseUrl } from "../url";
-import { messageListSchema } from "../../model/messagesSchema";
+import { chatSchema } from "../../model/chatSchema";
 
-const messagesQueryFunction = async (chatId: number) => {
-  const response = await axios.get(`${baseUrl}/chats/${chatId}/messages`);
+const chatQueryFunction = async (chatId: number) => {
+  const response = await axios.get(`${baseUrl}/chats/${chatId}`);
   const { data } = response;
+  
+  const chatData = chatSchema.parse(data);
 
-  const messages = messageListSchema.parse(data);
-
-  return  messages;
+  return chatData;
 }
 
-const messagesQueryOptions = (chatId: number) => queryOptions({
+const chatQueryOptions = (chatId: number) => queryOptions({
   queryKey: ['chat', chatId],
-  queryFn: () => messagesQueryFunction(chatId),
+  queryFn: () => chatQueryFunction(chatId),
 });
 
-export const useMessages = (chatId: number) => useQuery(messagesQueryOptions(chatId));
+export const useChat = (chatId: number) => useQuery(chatQueryOptions(chatId));

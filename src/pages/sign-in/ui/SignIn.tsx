@@ -29,7 +29,7 @@ export const SignInPage = () => {
 
     const { email } = data;
 
-    const id = email === 'pj@gmail.com' ? "1" : "2";
+    const id = email === 'pj@gmail.com' ? 1 : 2;
     const username = email === 'pj@gmail.com' ? "Patrick Jane" : "Teresa Lisbon";
 
     reset();

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMessages } from '../../../shared/api/queries/chat.query';
+import { useChat } from '../../../shared/api/queries/chat.query';
 import { AttachmentBtn } from '../../../features/attachmentBtn';
 import { MessageInput } from '../../../features/messageInput';
 import { ScrollBtn } from '../../../features/scrollBtn';
@@ -8,7 +8,9 @@ import { SendBtn } from '../../../features/sendBtn';
 import { Message } from '../../../entities/message';
 import { Spinner } from '../../../shared/ui/spinner/Spinner.styles';
 import { handleScrollDown } from '../../../shared/lib/utils/handlers';
-import { type Message as TMessage } from '../../../shared/model/messagesSchema';
+import { useAppSelector } from '../../../shared/lib/store';
+import { selectUserId } from '../../../entities/user';
+import { type Message as TMessage } from '../../../shared/model/messageListSchema';
 import * as S from './Chat.styles';
 
 type ChatPanelProps = {
@@ -45,12 +47,12 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
         onScroll={handleScrollDown.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >
         { messages ? (
-            messages.map(({ id, type, content, chat_id, sender_id }) => (
+            messages.map(({ id, type, content, chat_id, sender_id, created_at }) => (
               <Message 
                 key={id}
                 messageType={'sent'}
                 message={content}
-                timestamp=''
+                timestamp={''}
               />
             ))
           ) : (
@@ -82,19 +84,21 @@ const ChatInput = () => {
 
 export const Chat = () => {
   const { chatId } = useParams();
-  const { data, isLoading, isError, error } = useMessages(Number(chatId));
-
-  console.log(isLoading, isError, data, error);
+  const { data, isLoading, isSuccess } = useChat(Number(chatId));
+  const { messages, participant_one, participant_two } = isSuccess ? data: {};
+  const userName = useAppSelector(selectUserId) !== participant_one?.id ? 
+    participant_one?.username : 
+    participant_two?.username;
 
   return (
     <S.Chat>
       <ChatPanel
         isLoading={isLoading}
-        username={"Nanajon"}
+        username={userName}
         lastSeen={"recently"}
       />
       <ChatWindow 
-        messages={data}
+        messages={messages}
         isLoading={isLoading}
       />
       <ChatInput />

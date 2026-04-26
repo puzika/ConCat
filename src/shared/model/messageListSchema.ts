@@ -5,7 +5,8 @@ const messageSchema = z.object({
   type: z.enum(["text", "audio", "video"], "Invalid message type"),
   content: z.string().default(""),
   chat_id: z.number("Invalid chat id"),
-  sender_id: z.number("Invalid sender id")
+  sender_id: z.number("Invalid sender id"),
+  created_at: z.string(),
 }).refine(data => (data.type !== "text") || (data.content.length > 0), {
   error: "Text messages must be at least one character long",
   path: ["content"]

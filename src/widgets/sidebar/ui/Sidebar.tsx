@@ -7,27 +7,37 @@ import { Spinner } from '../../../shared/ui/spinner/Spinner';
 import { ErrorMessage } from '../../../shared/ui/errorMessage/ErrorMessage';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { handleScrollUp } from '../../../shared/lib/utils/handlers';
-import { useUsers } from '../../../shared/api/queries/users.query';
+import { useChatList } from '../../../shared/api/queries/chatList.query';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
 import { AxiosError } from 'axios';
+import { Navigate } from 'react-router-dom';
 import * as S from './Sidebar.styles';
 
 const Chats = () => {
   const id = useAppSelector(selectUserId);
-  const { data } = useUsers(id);
+
+  if (!id) return (
+    <Navigate to="/auth/sign-in" />
+  )
+
+  const { data } = useChatList(id);
   const scrollTargetRef = useRef<HTMLUListElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
 
-  const chats = data.map(user => (
-    <li key={user.userId}>
-      <ChatItem
-        chatId={user.chatId}
-        chatname={ user.username }
-        mostRecentMsg='Most recent message in the chat'
-      />
-    </li>
-  ));
+  const chats = data.map(({ participant_one, participant_two, id: chatId }) => {
+    const user = participant_one.id !== id ? participant_one : participant_two;
+
+    return (
+      <li key={user.id}>
+        <ChatItem
+          chatId={chatId}
+          chatname={ user.username }
+          mostRecentMsg='Most recent message in the chat'
+        />
+      </li>
+    )
+  });
 
   return (
     <>

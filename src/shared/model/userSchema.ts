@@ -1,11 +1,8 @@
 import z from "zod";
 
 export const userSchema = z.object({
-  userId: z.number(),
-  chatId: z.number(),
-  username: z.string().min(1),
-}).strict();
+  id: z.number().nullable(),
+  username: z.string(),
+});
 
 export type User = z.infer<typeof userSchema>;
-
-export const userListSchema = z.array(userSchema);

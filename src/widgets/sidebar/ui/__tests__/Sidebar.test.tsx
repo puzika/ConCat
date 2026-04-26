@@ -2,8 +2,9 @@ import "@testing-library/jest-dom/jest-globals";
 import { it, describe, expect, beforeAll, beforeEach, afterAll, afterEach } from "@jest/globals";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Sidebar } from "../Sidebar";
-import { QueryWrapper } from "../../../../shared/lib/utils/queryTestWrapper";
+import { TestWrapper } from "../../../../shared/lib/utils/queryTestWrapper";
 import { server } from "../../../../shared/api/mocks/server";
+import userReducer from "../../../../entities/user";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -15,9 +16,9 @@ describe("Sidebar", () => {
 
   beforeEach(async () => {
     render(
-      <QueryWrapper>
+      <TestWrapper reducers={{userReducer}}>
         <Sidebar />
-      </QueryWrapper>
+      </TestWrapper>
     );
     
     sidebarChats = await screen.findByTestId("sidebar-chats");

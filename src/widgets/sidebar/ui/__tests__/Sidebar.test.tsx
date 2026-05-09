@@ -4,6 +4,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Sidebar } from "../Sidebar";
 import { TestWrapper } from "../../../../shared/lib/utils/queryTestWrapper";
 import { server } from "../../../../shared/api/mocks/server";
+import type { User } from "../../../../shared/model/userSchema";
 import userReducer from "../../../../entities/user";
 
 beforeAll(() => server.listen());
@@ -16,7 +17,7 @@ describe("Sidebar", () => {
 
   beforeEach(async () => {
     render(
-      <TestWrapper reducers={{userReducer}}>
+      <TestWrapper preloadedState={{ "userReducer": { id: 1, username: "Patrick Jane"} as User }} reducers={{userReducer}}>
         <Sidebar />
       </TestWrapper>
     );

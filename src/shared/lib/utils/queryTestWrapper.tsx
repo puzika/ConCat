@@ -5,13 +5,19 @@ import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 
 type TestWrapperProps = {
-  children: ReactNode | ReactNode[],
+  children?: ReactNode | ReactNode[],
   reducers?: Record<string, Reducer>,
+  preloadedState?: Record<string, any>,
 }
 
-export const TestWrapper = ({ children, reducers }: TestWrapperProps) => {
-  const rootReducer = combineReducers(reducers);
-  const store = configureStore({ reducer: rootReducer });
+export const TestWrapper = ({ children, reducers, preloadedState }: TestWrapperProps) => {
+  const identityReducer = (state = {}) => state;
+  const rootReducer = combineReducers(reducers ?? { identityReducer });
+  
+  const store = configureStore({ 
+    reducer: rootReducer,
+    preloadedState,
+  });
 
   const queryClient = new QueryClient({
     defaultOptions: {

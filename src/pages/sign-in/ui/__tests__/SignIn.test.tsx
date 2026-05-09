@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom/jest-globals";
 import { describe, it, beforeEach, expect } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { SignInPage } from "../SignIn";
 import { TestWrapper } from "../../../../shared/lib/utils/queryTestWrapper";

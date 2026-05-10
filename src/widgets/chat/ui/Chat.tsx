@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useChat } from '../../../shared/api/queries/chat.query';
+import { useChat } from '../api/chat.query';
 import { AttachmentBtn } from '../../../features/attachmentBtn';
 import { MessageInput } from '../../../features/messageInput';
 import { ScrollBtn } from '../../../features/scrollBtn';
@@ -38,6 +38,7 @@ type ChatWindowProps = {
 const ChatWindow = ({ messages }: ChatWindowProps) => {
   const scrollTargetRef = useRef<HTMLDivElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
+  const userId = useAppSelector(selectUserId);
 
   return (
     <S.ChatWindow >
@@ -47,12 +48,12 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
         onScroll={handleScrollDown.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >
         { messages ? (
-            messages.map(({ id, type, content, chat_id, sender_id, created_at }) => (
+            messages.map(({ id, type, content, sender_id, created_at }) => (
               <Message 
                 key={id}
-                messageType={'sent'}
+                messageType={sender_id === userId ? 'sent' : 'received' }
                 message={content}
-                timestamp={''}
+                timestamp={created_at}
               />
             ))
           ) : (

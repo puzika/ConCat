@@ -3,7 +3,7 @@ import { vars } from "../../../shared/styles";
 
 export const Message = styled.article<{ $messageType: 'sent' | 'received'}>`
   position: relative;
-  max-width: 25rem;
+  max-width: 35rem;
   padding: 1rem 1rem .5rem;
   border-radius: 1rem;
   background-color: ${p => p.$messageType === 'sent' ? vars.primaryClr : vars.primaryClrLtr};

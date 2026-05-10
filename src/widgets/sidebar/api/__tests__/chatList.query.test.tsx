@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
 import { describe, it, expect, beforeAll, afterEach, afterAll } from '@jest/globals';
 import { renderHook, waitFor } from '@testing-library/react';
-import { TestWrapper } from '../../../lib/utils/queryTestWrapper';
+import { TestWrapper } from '../../../../shared/lib/utils/queryTestWrapper';
 import { useChatList } from '../chatList.query';
-import { server } from '../../mocks/server';
-import type { User } from '../../../model/userSchema';
+import { server } from '../../../../shared/api/mocks/server';
+import type { User } from '../../../../shared/model/userSchema';
 import userReducer from '../../../../entities/user';
 
 beforeAll(() => server.listen());

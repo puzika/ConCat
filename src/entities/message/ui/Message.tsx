@@ -7,7 +7,7 @@ type MessageProps = {
 }
 
 export const Message = ({ message, messageType, timestamp }: MessageProps) => {
-  const formatedTimestamp = Intl.DateTimeFormat('en-us', { timeStyle: "short" }).format(new Date());
+  const formatedTimestamp = Intl.DateTimeFormat('en-us', { timeStyle: "short" }).format(new Date(timestamp));
 
   return (
     <S.Message $messageType={messageType}>

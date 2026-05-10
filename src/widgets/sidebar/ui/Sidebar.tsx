@@ -7,7 +7,7 @@ import { Spinner } from '../../../shared/ui/spinner/Spinner';
 import { ErrorMessage } from '../../../shared/ui/errorMessage/ErrorMessage';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { handleScrollUp } from '../../../shared/lib/utils/handlers';
-import { useChatList } from '../../../shared/api/queries/chatList.query';
+import { useChatList } from '../api/chatList.query';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
 import { AxiosError } from 'axios';

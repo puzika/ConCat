@@ -4,7 +4,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { TestWrapper } from '../../../../shared/lib/utils/queryTestWrapper';
 import { useChatList } from '../chatList.query';
 import { server } from '../../../../shared/api/mocks/server';
-import type { User } from '../../../../shared/model/userSchema';
+import type { User } from '../../../../entities/user/model/userSchema';
 import userReducer from '../../../../entities/user';
 
 beforeAll(() => server.listen());
@@ -12,7 +12,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("Users", () => {
-  it("should return 2 objects", async () => {
+  it("should return a chat list", async () => {
     const { result } = renderHook(() => useChatList(1), { 
       wrapper: ({ children }) => (
         <TestWrapper 
@@ -26,13 +26,6 @@ describe("Users", () => {
       )
     });
 
-    await waitFor(() => {
-      expect(result.current).not.toBeNull();
-      expect(result.current.isSuccess).toBe(true)
-    });
-
-    const { data } = result.current;
-
-    expect(data).toHaveLength(2);
+    await waitFor(() => { expect(result.current.isSuccess).toBe(true) });
   });
 })

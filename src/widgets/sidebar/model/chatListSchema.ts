@@ -1,5 +1,5 @@
 import z from "zod";
-import { userSchema } from "./userSchema";
+import { userSchema } from "../../../entities/user/model/userSchema";
 
 export const chatListItemSchema = z.object({
   id: z.number(),

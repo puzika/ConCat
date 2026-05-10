@@ -10,7 +10,7 @@ import { Spinner } from '../../../shared/ui/spinner/Spinner.styles';
 import { handleScrollDown } from '../../../shared/lib/utils/handlers';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
-import { type Message as TMessage } from '../../../shared/model/messageListSchema';
+import { type Message as TMessage } from '../model/messageListSchema';
 import * as S from './Chat.styles';
 
 type ChatPanelProps = {

@@ -4,7 +4,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Sidebar } from "../Sidebar";
 import { TestWrapper } from "../../../../shared/lib/utils/queryTestWrapper";
 import { server } from "../../../../shared/api/mocks/server";
-import type { User } from "../../../../shared/model/userSchema";
+import type { User } from "../../../../entities/user/model/userSchema";
 import userReducer from "../../../../entities/user";
 
 beforeAll(() => server.listen());

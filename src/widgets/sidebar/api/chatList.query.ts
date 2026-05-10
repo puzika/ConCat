@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { baseUrl } from "../../../shared/api/url";
-import { chatListSchema } from "../../../shared/model/chatListSchema";
+import { chatListSchema } from "../model/chatListSchema";
 
 const chatListQueryOptions = (id: number) => queryOptions({
   queryKey: ['chatList', { userId: id }] as const,

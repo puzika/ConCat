@@ -13,5 +13,6 @@ const messageSchema = z.object({
 });
 
 export type Message = z.infer<typeof messageSchema>;
+export type NewMessage = Omit<Message, "id" | "created_at">;
 
 export const messageListSchema = z.array(messageSchema);

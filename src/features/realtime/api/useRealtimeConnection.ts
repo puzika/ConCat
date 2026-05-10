@@ -11,7 +11,7 @@ export const useRealtimeConnection = () => {
 
     socket.on('connect', () => {
       dispatch(connected(socket.id!));
-    });
+    }); 
 
     socket.on('disconnect', () => {
       dispatch(disconnected());

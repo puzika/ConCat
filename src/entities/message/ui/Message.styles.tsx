@@ -6,7 +6,7 @@ export const Message = styled.article<{ $messageType: 'sent' | 'received'}>`
   max-width: 35rem;
   padding: 1rem 1rem .5rem;
   border-radius: 1rem;
-  background-color: ${p => p.$messageType === 'sent' ? vars.primaryClr : vars.primaryClrLtr};
+  background-color: ${p => p.$messageType === 'sent' ? vars.primaryClrLtr : vars.primaryClr};
   box-shadow: 0 0 .8rem 0 #080f17;
 
   &::after {
@@ -18,7 +18,7 @@ export const Message = styled.article<{ $messageType: 'sent' | 'received'}>`
     border-style: solid;
     border-color: transparent;
     border-color: transparent;
-    border-bottom-color: ${p => p.$messageType === 'sent' ? vars.primaryClr : vars.primaryClrLtr};
+    border-bottom-color: ${p => p.$messageType === 'sent' ? vars.primaryClrLtr : vars.primaryClr};
     border-bottom-width: 1.1rem;
     border-left-width: 1rem;
     border-right-width: 1rem;

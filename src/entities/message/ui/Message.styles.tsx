@@ -43,4 +43,5 @@ export const MessageTimestamp = styled.span`
   justify-content: flex-end;
   font-size: 1.3rem;
   color: ${vars.fontClrLt};
+  margin-top: .5rem;
 `;

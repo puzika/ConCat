@@ -1,6 +1,6 @@
 import z from "zod";
 
-const messageSchema = z.object({
+export const messageSchema = z.object({
   id: z.number(),
   client_id: z.string().nullable().optional(),
   type: z.enum(["text", "audio", "video"], "Invalid message type"),

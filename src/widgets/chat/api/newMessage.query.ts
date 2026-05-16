@@ -16,16 +16,15 @@ export const useCreateMessage = (chatId: number) => {
     onMutate: async (newMessage) => {
       await queryClient.cancelQueries({ queryKey: ["chat", { chatId }]});
 
-      const previousChat = queryClient.getQueryData<Message[]>(["chat", { chatId }]);
+      const previousChat = queryClient.getQueryData<Chat>(["chat", { chatId }]);
 
       const optimisticMessage: Message = {
         ...newMessage,
         id: -1,
-        client_id: new Date().toISOString() + crypto.randomUUID(),
         created_at: new Date().toISOString(),
       }
       
-      queryClient.setQueryData(['chat', { chatId }], (chatData?: Chat) => {
+      queryClient.setQueryData(['chat', { chatId }], (chatData?: Chat): Chat | void => {
         if (!chatData) return chatData;
 
         return {

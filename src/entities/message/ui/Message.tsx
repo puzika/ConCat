@@ -14,14 +14,11 @@ export const Message = ({ message, messageType, timestamp, optimistic }: Message
   return (
     <>
       <S.Message $messageType={messageType}>
-        <p>
-          { message }
-        </p>
+        <p>{ message }</p>
         <S.MessageTimestamp>
-          { formatedTimestamp }
+          { optimistic ? <Spinner /> : formatedTimestamp }
         </S.MessageTimestamp>
       </S.Message>
-      { optimistic && <Spinner />}
     </>
   )
 }

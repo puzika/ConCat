@@ -22,6 +22,7 @@ export const MessageBar = () => {
 
     const newMessage: NewMessage = {
       type: 'text',
+      client_id: new Date().toISOString() + crypto.randomUUID(),
       sender_id: userId,
       chat_id: Number(chatId),
       content: msg,

@@ -8,6 +8,7 @@ import { Spinner } from '../../../shared/ui/spinner/Spinner';
 import { handleScrollDown } from '../../../shared/lib/utils/handlers';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
+import { useMessageStream } from '../model/useMessageStream';
 import { type Message as TMessage } from '../model/messageListSchema';
 import * as S from './Chat.styles';
 
@@ -37,7 +38,8 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
   const scrollTargetRef = useRef<HTMLDivElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
   const userId = useAppSelector(selectUserId);
-
+  useMessageStream();
+  
   return (
     <S.ChatWindow >
       <S.ChatMessages 

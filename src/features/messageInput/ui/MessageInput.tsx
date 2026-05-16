@@ -1,17 +1,31 @@
-import { useState, type KeyboardEvent, type InputEvent } from 'react';
+import { 
+  type KeyboardEvent, 
+  type InputEvent,
+  type Dispatch,
+  type SetStateAction,
+  type RefObject
+} from 'react';
 import * as S from './MessageInput.styles';
 
 type MessageInputProps = {
   placeholder: string,
   name: string,
-  sendHandler: (message: string) => void,
+  sendHandler: (msg: string) => void,
+  value: string,
+  setter: Dispatch<SetStateAction<string>>,
+  messageRef: RefObject<HTMLParagraphElement | null>,
 }
 
-export const MessageInput = ({ name, placeholder, sendHandler }: MessageInputProps) => {
-  const [text, setText] = useState<string>('');
-
+export const MessageInput = ({ name, placeholder, sendHandler, value, setter, messageRef }: MessageInputProps) => {
   const handleInput = (e: InputEvent<HTMLDivElement>) => {
-    setText(e.currentTarget.innerText);
+    const { currentTarget: input } = e;
+
+    if (!input.innerText.trim()) {
+      setter(input.textContent);
+      return;
+    }
+
+    setter(input.innerText);
   }
 
   const handleEnterKey = (e: KeyboardEvent<HTMLParagraphElement>) => {
@@ -19,15 +33,15 @@ export const MessageInput = ({ name, placeholder, sendHandler }: MessageInputPro
 
     if (e.key === 'Enter') {
       e.preventDefault();
-      sendHandler(text);
+      if (value.trim().length > 0) sendHandler(value);
     }
   }
 
   return (
     <S.Input>
-      <S.Text onKeyDown={handleEnterKey} contentEditable onInput={handleInput}></S.Text>
-      <S.GhostText name={name} defaultValue={text} readOnly></S.GhostText>
-      { !text && <S.Placeholder>{ placeholder }</S.Placeholder>}
+      <S.Text ref={messageRef} onKeyDown={handleEnterKey} contentEditable onInput={handleInput}></S.Text>
+      <S.GhostText name={name} value={value} readOnly></S.GhostText>
+      {!value && <S.Placeholder>{ placeholder }</S.Placeholder>}
     </S.Input>
   )
 }

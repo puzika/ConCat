@@ -1,1 +1,1 @@
-export { MessageInput } from './ui/MessageInput';
+export { MessageBar } from './ui/MessageBar'

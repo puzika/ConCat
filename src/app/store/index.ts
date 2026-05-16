@@ -1,6 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { realtimeReducer } from "../providers/realtime/realtime.slice";
 import userReducer from "../../entities/user";
-import realtimeReducer from "../../features/realtime";
 
 const rootReducer = combineReducers({ 
   userReducer,

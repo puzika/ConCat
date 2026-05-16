@@ -1,17 +1,14 @@
-import { useRef, useState, type SubmitEvent } from 'react';
+import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useChat } from '../api/chat.query';
-import { useCreateMessage } from '../api/newMessage.query';
-import { AttachmentBtn } from '../../../features/attachmentBtn';
-import { MessageInput } from '../../../features/messageInput';
+import { MessageBar } from '../../../features/messageInput';
 import { ScrollBtn } from '../../../features/scrollBtn';
-import { SendBtn } from '../../../features/sendBtn';
 import { Message } from '../../../entities/message';
-import { Spinner } from '../../../shared/ui/spinner/Spinner.styles';
+import { Spinner } from '../../../shared/ui/spinner/Spinner';
 import { handleScrollDown } from '../../../shared/lib/utils/handlers';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
-import { type Message as TMessage, type NewMessage } from '../model/messageListSchema';
+import { type Message as TMessage } from '../model/messageListSchema';
 import * as S from './Chat.styles';
 
 type ChatPanelProps = {
@@ -49,9 +46,10 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
         onScroll={handleScrollDown.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >
         { messages ? (
-            messages.map(({ id, type, content, sender_id, created_at }) => (
+            messages.map(({ id, content, sender_id, created_at }) => (
               <Message 
-                key={id}
+                key={crypto.randomUUID()}
+                optimistic={ id === -1 }
                 messageType={sender_id === userId ? 'sent' : 'received' }
                 message={content}
                 timestamp={created_at}
@@ -74,45 +72,6 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
   )
 }
 
-const ChatInput = () => {
-  const { chatId } = useParams();
-  const userId = useAppSelector(selectUserId);
-  const { mutate } = useCreateMessage(Number(chatId));
-
-  const handleSend = async (message: string) => {
-    const newMessage: NewMessage = {
-      type: 'text',
-      sender_id: userId!,
-      chat_id: Number(chatId),
-      content: message,
-    }
-
-    mutate(newMessage);
-  }
-
-  const handleSubmission = (e: SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const { target } = e;
-    const formData = new FormData(target);
-    const message = formData.get('message');
-    
-    // handleSend(message?.valueOf());
-  }
-
-  return (
-    <S.ChatInputSection onSubmit={handleSubmission}>
-      <AttachmentBtn />
-      <MessageInput
-        sendHandler={handleSend}
-        placeholder='Write a message...' 
-        name="message" 
-      />
-      <SendBtn clickable />
-    </S.ChatInputSection>
-  )
-}
-
 export const Chat = () => {
   const { chatId } = useParams();
   const { data, isLoading, isSuccess } = useChat(Number(chatId));
@@ -132,7 +91,7 @@ export const Chat = () => {
         messages={messages}
         isLoading={isLoading}
       />
-      <ChatInput />
+      <MessageBar />
     </S.Chat>
   )
 }

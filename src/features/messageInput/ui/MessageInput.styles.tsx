@@ -24,10 +24,12 @@ export const Placeholder = styled.p`
 export const Text = styled.p`
   width: 100%;
   max-height: 10rem;
+  white-space: pre-wrap;
   overflow-y: scroll;
   overflow-x: hidden;
   word-wrap: break-word;
   outline: none;
+  padding: .5rem 0;
 
   &::-webkit-scrollbar {
     display: none;

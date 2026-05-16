@@ -21,7 +21,6 @@ export const SendBtn = styled.button<{ $clickable: boolean }>`
     visibility: hidden;
     opacity: 0;
     font-size: 0;
-    width: 0;
     pointer-events: none;
   `}
 `;

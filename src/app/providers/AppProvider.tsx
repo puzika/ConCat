@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
+import { RealtimeProvider } from "./realtime";
 import { store } from "../store";
 
 type ProvidersProps = {
@@ -12,9 +13,11 @@ const client = new QueryClient();
 export const Providers = ({ children }: ProvidersProps) => {
   return (
     <Provider store={store}>
-      <QueryClientProvider client={client}>
-        {children}
-      </QueryClientProvider>
+      <RealtimeProvider>
+        <QueryClientProvider client={client}>
+          {children}
+        </QueryClientProvider>
+      </RealtimeProvider>
     </Provider>
   )
 }

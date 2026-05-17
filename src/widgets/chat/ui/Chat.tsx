@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useChat } from '../api/chat.query';
 import { MessageBar } from '../../../features/messageInput';
@@ -34,7 +34,7 @@ type ChatWindowProps = {
   isLoading: boolean,
 }
 
-const ChatWindow = ({ messages }: ChatWindowProps) => {
+const ChatWindow = memo(({ messages }: ChatWindowProps) => {
   const scrollTargetRef = useRef<HTMLDivElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
   const userId = useAppSelector(selectUserId);
@@ -50,7 +50,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
         { messages ? (
             messages.map(({ id, content, sender_id, created_at }) => (
               <Message 
-                key={crypto.randomUUID()}
+                key={id}
                 optimistic={ id === -1 }
                 messageType={sender_id === userId ? 'sent' : 'received' }
                 message={content}
@@ -72,7 +72,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
       />
     </S.ChatWindow>
   )
-}
+})
 
 export const Chat = () => {
   const { chatId } = useParams();

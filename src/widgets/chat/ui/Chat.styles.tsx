@@ -42,9 +42,8 @@ export const ChatWindow = styled.div`
 export const ChatMessages = styled.div`
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: flex-start;
-  justify-content: flex-end;
   gap: 1rem;
   padding: ${vars.primaryPadding};
   overflow-y: auto;

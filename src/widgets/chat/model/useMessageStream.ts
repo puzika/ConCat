@@ -5,6 +5,7 @@ import { socket } from "../../../shared/api/realtime/socket";
 import { SOCKET_EVENTS } from "../../../shared/config/socket-event";
 import { type Chat } from "./chatSchema";
 import { messageSchema } from "./messageListSchema";
+import z from "zod";
 
 export const useMessageStream = () => {
   const queryClient = useQueryClient();
@@ -38,8 +39,26 @@ export const useMessageStream = () => {
       })
     })
 
+    socket.on(SOCKET_EVENTS.MESSAGE_DELETED, data => {
+      const schema = z.number();
+      const messageId = schema.parse(data);
+
+      queryClient.setQueryData(['chat', { chatId }], (chatData?: Chat): Chat | void => {
+        if (!chatData) return chatData;
+
+        const { messages: prevMessages } = chatData;
+        const updatedMessages = prevMessages.filter(msg => msg.id !== messageId);
+
+        return {
+          ...chatData,
+          messages: updatedMessages
+        }
+      })
+    })
+
     return () => {
       socket.removeListener(SOCKET_EVENTS.MESSAGE_RECEIVED);
+      socket.removeListener(SOCKET_EVENTS.MESSAGE_DELETED);
     }
   }, []);
 }

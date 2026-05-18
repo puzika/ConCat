@@ -1,6 +1,5 @@
 import { 
   RiReplyLine, 
-  RiShareForwardLine,
   RiDeleteBin6Line,
   RiEditLine
 } from "react-icons/ri";
@@ -21,10 +20,6 @@ export const actions: MessageAction[] = [
   {
     description: "Edit",
     img: <RiEditLine />,
-  },
-  {
-    description: "Forward",
-    img: <RiShareForwardLine />,
   },
   {
     description: "Copy",

@@ -51,6 +51,7 @@ const ChatWindow = memo(({ messages }: ChatWindowProps) => {
             messages.map(({ id, content, sender_id, created_at }) => (
               <Message 
                 key={id}
+                id={id}
                 optimistic={ id === -1 }
                 messageType={sender_id === userId ? 'sent' : 'received' }
                 message={content}

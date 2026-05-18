@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { baseUrl } from "../../../shared/api/url";
-import { type NewMessage, type Message } from "../model/messageListSchema";
-import type { Chat } from "../model/chatSchema";
+import { type NewMessage, type Message } from "../../../widgets/chat/model/messageListSchema";
+import type { Chat } from "../../../widgets/chat/model/chatSchema";
 import axios from "axios";
 
 export const useCreateMessage = (chatId: number) => {

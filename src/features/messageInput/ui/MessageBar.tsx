@@ -2,7 +2,7 @@ import { useState, useRef, type SubmitEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
-import { useCreateMessage } from '../../../widgets/chat/api/newMessage.query';
+import { useCreateMessage } from '../api/newMessage.query';
 import { AttachmentBtn } from './AttachmentBtn';
 import { MessageInput } from './MessageInput';
 import { SendBtn } from './SendBtn';

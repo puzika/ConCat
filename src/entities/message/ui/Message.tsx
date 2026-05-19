@@ -26,14 +26,13 @@ export const Message = ({ id, message, messageType, timestamp, optimistic }: Mes
   const { actionsRef, showPopup } = useMessagePopup();
   const { chatId } = useParams();
   const formattedChatId = Number(chatId);
-  const { mutate, isPending } = useDeleteMessage(formattedChatId);
+  const { mutate } = useDeleteMessage(formattedChatId);
   const formatedTimestamp = formatDate(timestamp);
 
   const handleRightClick = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     const { clientX: x, clientY: y } = e;
-
     showPopup(x, y);
   }
 
@@ -55,13 +54,7 @@ export const Message = ({ id, message, messageType, timestamp, optimistic }: Mes
       <S.MessageTimestamp>
         { optimistic ? <Spinner /> : formatedTimestamp }
       </S.MessageTimestamp>
-      { messageType === 'sent' && (
-        <MessageActions 
-          actions={actions} 
-          messageId={id} 
-          ref={actionsRef} 
-        />
-      )}
+      { messageType === 'sent' && <MessageActions actions={actions} ref={actionsRef} /> }
     </S.Message>
   )
 }

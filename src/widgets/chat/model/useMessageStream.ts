@@ -20,17 +20,8 @@ export const useMessageStream = () => {
         if (!chatData) return chatData;
 
         const { messages: prevMessages } = chatData;
-        
-        let foundOptimistic = false;
-        let updatedMessages = prevMessages.map(msg => {
-          foundOptimistic = msg.client_id === message.client_id;
-
-          return foundOptimistic ? message : msg;
-        });
-
-        if (!foundOptimistic) {
-          updatedMessages = [...updatedMessages, message];
-        }
+        const updatedMessages = prevMessages.filter(msg => msg.client_id !== message.client_id);
+        updatedMessages.unshift(message);
 
         return {
           ...chatData,

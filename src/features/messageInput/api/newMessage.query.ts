@@ -30,8 +30,8 @@ export const useCreateMessage = (chatId: number) => {
         return {
           ...chatData,
           messages: [
-            ...chatData.messages,
             optimisticMessage,
+            ...chatData.messages,
           ],
         };
       });

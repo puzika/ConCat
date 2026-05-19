@@ -1,18 +1,13 @@
 import { type RefObject } from 'react';
-import { useParams } from 'react-router-dom';
 import { type MessageAction } from '../model/messageActions';
-import { useDeleteMessage } from '../api/delete.query';
 import * as S from './MessageActions.styles';
 
 type MessageActionsProps = {
-  messageId: number,
   actions: MessageAction[],
   ref: RefObject<HTMLUListElement | null>
 }
 
-export const MessageActions = ({ ref, messageId, actions }: MessageActionsProps) => {
-  const { chatId } = useParams();
-  const formattedChatId = Number(chatId);
+export const MessageActions = ({ ref, actions }: MessageActionsProps) => {
 
   return (
     <S.Actions ref={ref} popover="auto">

@@ -1,6 +1,17 @@
-import { type MouseEvent, useRef} from 'react';
+import { type MouseEvent } from 'react';
+import { useParams } from 'react-router-dom';
 import { Spinner } from '../../../shared/ui/spinner/Spinner';
 import { MessageActions } from './MessageActions';
+import { useMessagePopup } from './useMessagePopup';
+import { useDeleteMessage } from '../api/delete.query';
+import { formatDate } from '../model/dateFormatting';
+import {type MessageAction } from '../model/messageActions';
+import { 
+  RiReplyLine, 
+  RiDeleteBin6Line,
+  RiEditLine
+} from "react-icons/ri";
+import { MdContentCopy } from "react-icons/md";
 import * as S from './Message.styles';
 
 type MessageProps = {
@@ -12,25 +23,11 @@ type MessageProps = {
 }
 
 export const Message = ({ id, message, messageType, timestamp, optimistic }: MessageProps) => {
-  const actionsRef = useRef<HTMLUListElement | null>(null);
-  const formatedTimestamp = Intl.DateTimeFormat('en-us', { timeStyle: "short" }).format(new Date(timestamp));
-
-  const showPopup = (x: number, y: number) => {
-    const { current: actionsList } = actionsRef;
-
-    if (!actionsList) return;
-
-    actionsList.showPopover();
-
-    const { innerWidth } = window;
-    const { width, height } = actionsList.getBoundingClientRect();
-
-    const horizontalShift = x + width - innerWidth;
-    const verticalShift = y - height;
-
-    actionsList.style.top = verticalShift < 0 ? `${y - height / 2 - verticalShift}px` : `${y - height / 2}px`;
-    actionsList.style.left = horizontalShift > 0 ? `${x + width / 2 - horizontalShift}px` : `${x + width / 2}px`;
-  }
+  const { actionsRef, showPopup } = useMessagePopup();
+  const { chatId } = useParams();
+  const formattedChatId = Number(chatId);
+  const { mutate, isPending } = useDeleteMessage(formattedChatId);
+  const formatedTimestamp = formatDate(timestamp);
 
   const handleRightClick = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -40,13 +37,31 @@ export const Message = ({ id, message, messageType, timestamp, optimistic }: Mes
     showPopup(x, y);
   }
 
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(message);
+    actionsRef.current?.hidePopover();
+  }
+
+  const actions: MessageAction[] = [
+    { icon: <RiReplyLine />, desc: "Reply", actionHandler: () => mutate(id) },
+    { icon: <RiEditLine />, desc: "Edit", actionHandler: () => mutate(id)},
+    { icon: <MdContentCopy />, desc: "Copy", actionHandler: handleCopy},
+    { icon: <RiDeleteBin6Line />, desc: "Delete", actionHandler: () => mutate(id)},
+  ]
+
   return (
     <S.Message onContextMenu={handleRightClick} $messageType={messageType}>
       <p>{ message }</p>
       <S.MessageTimestamp>
         { optimistic ? <Spinner /> : formatedTimestamp }
       </S.MessageTimestamp>
-      { messageType === 'sent' && <MessageActions messageId={id} ref={actionsRef} />}
+      { messageType === 'sent' && (
+        <MessageActions 
+          actions={actions} 
+          messageId={id} 
+          ref={actionsRef} 
+        />
+      )}
     </S.Message>
   )
 }

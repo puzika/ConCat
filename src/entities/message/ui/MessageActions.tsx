@@ -13,8 +13,8 @@ export const MessageActions = ({ ref, actions }: MessageActionsProps) => {
     <S.Actions ref={ref} popover="auto">
       {
         actions.map(({ desc, icon, actionHandler }) => (
-          <S.ActionsItem onClick={actionHandler} key={crypto.randomUUID()}>
-            <S.ActionsButton>
+          <S.ActionsItem key={crypto.randomUUID()}>
+            <S.ActionsButton onClick={actionHandler}>
               <S.ActionsIcon>{ icon }</S.ActionsIcon>
               <span>{desc}</span>
             </S.ActionsButton>

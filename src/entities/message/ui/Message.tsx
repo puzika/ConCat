@@ -1,5 +1,7 @@
 import { type MouseEvent } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch } from '../../../shared/lib/store';
+import { setMessageState } from '../model/messageSlice';
 import { Spinner } from '../../../shared/ui/spinner/Spinner';
 import { MessageActions } from './MessageActions';
 import { useMessagePopup } from './useMessagePopup';
@@ -20,9 +22,11 @@ type MessageProps = {
   timestamp: string,
   messageType: "sent" | "received",
   optimistic?: boolean,
+  edited?: boolean,
 }
 
-export const Message = ({ id, message, messageType, timestamp, optimistic }: MessageProps) => {
+export const Message = ({ id, message, messageType, timestamp, optimistic, edited }: MessageProps) => {
+  const dispatch = useAppDispatch();
   const { actionsRef, showPopup } = useMessagePopup();
   const { chatId } = useParams();
   const formattedChatId = Number(chatId);
@@ -41,9 +45,29 @@ export const Message = ({ id, message, messageType, timestamp, optimistic }: Mes
     actionsRef.current?.hidePopover();
   }
 
+  const handleEdit = () => {
+    dispatch(setMessageState({ 
+      messageId: id,
+      messageStatus: 'edit',
+      messageContent: message,
+    }));
+
+    actionsRef.current?.hidePopover();
+  }
+
+  const handleReply = () => {
+    dispatch(setMessageState({ 
+      messageId: id,
+      messageStatus: 'reply',
+      messageContent: message,
+    }));
+
+    actionsRef.current?.hidePopover();
+  }
+
   const actions: MessageAction[] = [
-    { icon: <RiReplyLine />, desc: "Reply", actionHandler: () => mutate(id) },
-    { icon: <RiEditLine />, desc: "Edit", actionHandler: () => mutate(id)},
+    { icon: <RiReplyLine />, desc: "Reply", actionHandler: handleReply },
+    { icon: <RiEditLine />, desc: "Edit", actionHandler: handleEdit},
     { icon: <MdContentCopy />, desc: "Copy", actionHandler: handleCopy},
     { icon: <RiDeleteBin6Line />, desc: "Delete", actionHandler: () => mutate(id)},
   ]
@@ -53,6 +77,7 @@ export const Message = ({ id, message, messageType, timestamp, optimistic }: Mes
       <p>{ message }</p>
       <S.MessageTimestamp>
         { optimistic ? <Spinner /> : formatedTimestamp }
+        { edited && "edited"}
       </S.MessageTimestamp>
       { messageType === 'sent' && <MessageActions actions={actions} ref={actionsRef} /> }
     </S.Message>

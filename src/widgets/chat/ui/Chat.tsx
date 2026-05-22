@@ -9,7 +9,7 @@ import { handleScrollDown } from '../../../shared/lib/utils/handlers';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
 import { useMessageStream } from '../model/useMessageStream';
-import { type Message as TMessage } from '../model/messageListSchema';
+import { type Message as TMessage } from '../../../entities/message/model/messageSchema';
 import * as S from './Chat.styles';
 
 type ChatPanelProps = {
@@ -48,8 +48,9 @@ const ChatWindow = memo(({ messages }: ChatWindowProps) => {
         onScroll={handleScrollDown.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >
         { messages ? (
-            messages.map(({ id, content, sender_id, created_at }) => (
+            messages.map(({ id, content, sender_id, created_at, modified_at }) => (
               <Message 
+                edited={created_at !== modified_at}
                 key={id}
                 id={id}
                 optimistic={ id === -1 }

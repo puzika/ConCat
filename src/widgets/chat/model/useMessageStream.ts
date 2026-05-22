@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { socket } from "../../../shared/api/realtime/socket";
 import { SOCKET_EVENTS } from "../../../shared/config/socket-event";
 import { type Chat } from "./chatSchema";
-import { messageSchema } from "./messageListSchema";
+import { messageSchema } from "../../../entities/message/model/messageSchema";
 import z from "zod";
 
 export const useMessageStream = () => {

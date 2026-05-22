@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { baseUrl } from "../../../shared/api/url";
-import { type NewMessage, type Message } from "../../../entities/message/model/messageSchema";
+import { type Message, type EditedMessage } from "../../../entities/message/model/messageSchema";
 import axios from "axios";
 
 type ChatCache = {
@@ -8,37 +8,34 @@ type ChatCache = {
   [key: string]: any,
 }
 
-export const useCreateMessage = (chatId: number) => {
+export const useEditMessage = (chatId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (newMessage: NewMessage) => {
-      const response = await axios.post(`${baseUrl}/chats/${chatId}/messages`, newMessage);
+    mutationFn: async ({id, content}: EditedMessage) => {
+      const response = await axios.patch(`${baseUrl}/chats/${chatId}/messages/${id}`, { content });
       return response.data;
     },
 
-    onMutate: async (newMessage) => {
+    onMutate: async ({ id, content }) => {
       await queryClient.cancelQueries({ queryKey: ["chat", { chatId }]});
 
       const previousChat = queryClient.getQueryData<ChatCache>(["chat", { chatId }]);
-      const date = new Date().toISOString();
 
-      const optimisticMessage: Message = {
-        ...newMessage,
-        id: -1,
-        created_at: date,
-        modified_at: date,
-      }
+      if (!previousChat) return;
+
+      const updatedChat: Message[] = previousChat?.messages.map(msg => {
+        return msg.id === id ?
+          { ...msg, content, id: -1 } :
+          msg
+      });
       
       queryClient.setQueryData(['chat', { chatId }], (chatData?: ChatCache): ChatCache | void => {
         if (!chatData) return chatData;
 
         return {
           ...chatData,
-          messages: [
-            optimisticMessage,
-            ...chatData.messages,
-          ],
+          messages: updatedChat,
         };
       });
 

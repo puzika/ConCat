@@ -7,13 +7,16 @@ export const messageSchema = z.object({
   content: z.string().default(""),
   chat_id: z.number("Invalid chat id"),
   sender_id: z.number("Invalid sender id"),
+  parent_message_id: z.number().nullable().optional(),
   created_at: z.string(),
+  modified_at: z.string(),
 }).refine(data => (data.type !== "text") || (data.content.length > 0), {
   error: "Text messages must be at least one character long",
   path: ["content"]
 });
 
 export type Message = z.infer<typeof messageSchema>;
-export type NewMessage = Omit<Message, "id" | "created_at">;
+export type NewMessage = Omit<Message, "id" | "created_at" | "modified_at">;
+export type EditedMessage = Pick<Message, "id" | "content">;
 
 export const messageListSchema = z.array(messageSchema);

@@ -3,8 +3,11 @@ import {
   type InputEvent,
   type Dispatch,
   type SetStateAction,
-  type RefObject
+  type RefObject,
+  useEffect
 } from 'react';
+import { useAppSelector } from '../../../shared/lib/store';
+import { selectMessageContent, selectMessageStatus } from '../../../entities/message/model/messageSlice';
 import * as S from './MessageInput.styles';
 
 type MessageInputProps = {
@@ -17,6 +20,19 @@ type MessageInputProps = {
 }
 
 export const MessageInput = ({ name, placeholder, sendHandler, value, setter, messageRef }: MessageInputProps) => {
+  const messageContent = useAppSelector(selectMessageContent);
+  const messageStatus = useAppSelector(selectMessageStatus);
+
+  useEffect(() => {
+    if (messageStatus !== 'edit') return;
+
+    setter(messageContent);
+
+    if (!messageRef.current) return;
+
+    messageRef.current.textContent = messageContent;
+  }, [messageContent, messageStatus]);
+
   const handleInput = (e: InputEvent<HTMLDivElement>) => {
     const { currentTarget: input } = e;
 

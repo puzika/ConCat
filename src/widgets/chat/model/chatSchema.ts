@@ -1,5 +1,5 @@
 import z from "zod";
-import { messageListSchema } from "./messageListSchema";
+import { messageListSchema } from "../../../entities/message/model/messageSchema";
 import { userSchema } from "../../../entities/user/model/userSchema";
 
 export const chatSchema = z.object({

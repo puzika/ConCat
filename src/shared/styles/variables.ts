@@ -4,6 +4,7 @@ export const primaryClrLt = "#233a53";
 export const primaryClrLtr = "#4076aa";
 export const primaryClrDk = "#080f17";
 export const secondaryClr = "#579bde";
+export const secondaryClrDk = "#3e9eff";
 
 export const fontClr = "#dae6f9";
 export const fontClrLt = "#9cc0ef";

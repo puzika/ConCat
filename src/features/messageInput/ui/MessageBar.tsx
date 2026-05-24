@@ -35,10 +35,11 @@ export const MessageBar = () => {
       sender_id: userId,
       chat_id: Number(chatId),
       content: msg,
+      parent_message_id: messageId,
     }
 
-    if (messageStatus === 'regular') mutateCreate(newMessage);
-    else if (messageStatus === 'edit' && messageId) mutateEdit({ id: messageId, content: msg });
+    if (messageId && messageStatus === 'edit') mutateEdit({ id: messageId, content: msg });
+    else mutateCreate(newMessage);
     
     setText('');
     

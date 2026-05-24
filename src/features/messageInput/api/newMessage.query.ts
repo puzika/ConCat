@@ -29,6 +29,10 @@ export const useCreateMessage = (chatId: number) => {
         created_at: date,
         modified_at: date,
       }
+
+      if (newMessage.parent_message_id) {
+        optimisticMessage.parent_message = previousChat?.messages.find(msg => optimisticMessage.parent_message_id === msg.id);
+      }
       
       queryClient.setQueryData(['chat', { chatId }], (chatData?: ChatCache): ChatCache | void => {
         if (!chatData) return chatData;

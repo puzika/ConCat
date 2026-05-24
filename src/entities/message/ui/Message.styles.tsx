@@ -40,8 +40,36 @@ export const Message = styled.article<{ $messageType: 'sent' | 'received'}>`
 
 export const MessageTimestamp = styled.span`
   display: flex;
+  gap: .5rem;
   justify-content: flex-end;
   font-size: 1.3rem;
   color: ${vars.fontClrLt};
   margin-top: .5rem;
+`;
+
+export const MessageParent = styled.a<{ $messageType: 'sent' | 'received' }>`
+  display: block;
+  position: relative;
+  background-color: ${({$messageType}) => $messageType === 'sent' ? vars.primaryClrLt : vars.primaryClrDk };
+  width: 100%;
+  padding: .5rem 1.5rem;
+  margin-bottom: .8rem;
+  border-radius: .8rem;
+  overflow: hidden;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: .5rem;
+    background-color: ${({$messageType}) => $messageType === 'sent' ? vars.secondaryClrDk : vars.secondaryClr };
+  }
+`;
+
+export const MessageParentSender = styled.span`
+  font-weight: 600;
+  color: ${vars.secondaryClr};
 `;

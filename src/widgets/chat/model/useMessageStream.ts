@@ -11,6 +11,7 @@ export const useMessageStream = () => {
   const queryClient = useQueryClient();
   const { chatId: unformattedChatId } = useParams();
   const chatId = Number(unformattedChatId);
+  console.log('whatup');
 
   useEffect(() => {
     socket.on(SOCKET_EVENTS.MESSAGE_RECEIVED, data => {
@@ -22,6 +23,23 @@ export const useMessageStream = () => {
         const { messages: prevMessages } = chatData;
         const updatedMessages = prevMessages.filter(msg => msg.client_id !== message.client_id);
         updatedMessages.unshift(message);
+
+        return {
+          ...chatData,
+          messages: updatedMessages
+        }
+      })
+    });
+
+    socket.on(SOCKET_EVENTS.MESSAGE_UPDATED, data => {
+      const message = messageSchema.parse(data);
+      
+      queryClient.setQueryData(['chat', { chatId }], (chatData?: Chat): Chat | void => {
+        if (!chatData) return chatData;
+
+        const { messages: prevMessages } = chatData;
+        
+        const updatedMessages = prevMessages.map(msg => msg.client_id === message.client_id ? message : msg);
 
         return {
           ...chatData,
@@ -49,6 +67,7 @@ export const useMessageStream = () => {
 
     return () => {
       socket.removeListener(SOCKET_EVENTS.MESSAGE_RECEIVED);
+      socket.removeListener(SOCKET_EVENTS.MESSAGE_UPDATED);
       socket.removeListener(SOCKET_EVENTS.MESSAGE_DELETED);
     }
   }, []);

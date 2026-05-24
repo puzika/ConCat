@@ -8,6 +8,7 @@ import { useMessagePopup } from './useMessagePopup';
 import { useDeleteMessage } from '../api/delete.query';
 import { formatDate } from '../model/dateFormatting';
 import {type MessageAction } from '../model/messageActions';
+import { type Message as ParentMessage } from '../model/messageSchema';
 import { 
   RiReplyLine, 
   RiDeleteBin6Line,
@@ -23,9 +24,10 @@ type MessageProps = {
   messageType: "sent" | "received",
   optimistic?: boolean,
   edited?: boolean,
+  parent?: ParentMessage | null,
 }
 
-export const Message = ({ id, message, messageType, timestamp, optimistic, edited }: MessageProps) => {
+export const Message = ({ id, message, messageType, timestamp, optimistic, edited, parent }: MessageProps) => {
   const dispatch = useAppDispatch();
   const { actionsRef, showPopup } = useMessagePopup();
   const { chatId } = useParams();
@@ -65,21 +67,46 @@ export const Message = ({ id, message, messageType, timestamp, optimistic, edite
     actionsRef.current?.hidePopover();
   }
 
+  const navigateToParent = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    if (!parent) return;
+
+    const target = document.getElementById(`msg-${chatId}-${parent.id}`);
+
+    target?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    })
+  }
+
   const actions: MessageAction[] = [
     { icon: <RiReplyLine />, desc: "Reply", actionHandler: handleReply },
-    { icon: <RiEditLine />, desc: "Edit", actionHandler: handleEdit},
-    { icon: <MdContentCopy />, desc: "Copy", actionHandler: handleCopy},
-    { icon: <RiDeleteBin6Line />, desc: "Delete", actionHandler: () => mutate(id)},
-  ]
+  ];
+
+  if (messageType === 'sent') {
+    actions.push({ icon: <RiEditLine />, desc: "Edit", actionHandler: handleEdit });
+  }
+  
+  actions.push(
+    { icon: <MdContentCopy />, desc: "Copy", actionHandler: handleCopy },
+    { icon: <RiDeleteBin6Line />, desc: "Delete", actionHandler: () => mutate(id) },
+  )
 
   return (
-    <S.Message onContextMenu={handleRightClick} $messageType={messageType}>
+    <S.Message id={`msg-${chatId}-${id}`} onContextMenu={handleRightClick} $messageType={messageType}>
+      { parent && (
+        <S.MessageParent onClick={navigateToParent} $messageType={messageType}>
+          <S.MessageParentSender>{ parent.sender?.username}</S.MessageParentSender>
+          <p>{ parent.content }</p>
+        </S.MessageParent>
+      )}
       <p>{ message }</p>
       <S.MessageTimestamp>
-        { optimistic ? <Spinner /> : formatedTimestamp }
-        { edited && "edited"}
+        { edited && <span>edited</span>}
+        { optimistic ? <Spinner /> : <span>{formatedTimestamp}</span> }
       </S.MessageTimestamp>
-      { messageType === 'sent' && <MessageActions actions={actions} ref={actionsRef} /> }
+      <MessageActions actions={actions} ref={actionsRef} />
     </S.Message>
   )
 }

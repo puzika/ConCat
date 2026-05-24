@@ -24,11 +24,13 @@ export const MessageInput = ({ name, placeholder, sendHandler, value, setter, me
   const messageStatus = useAppSelector(selectMessageStatus);
 
   useEffect(() => {
+    if (!messageRef.current) return;
+
+    messageRef.current.focus();
+
     if (messageStatus !== 'edit') return;
 
     setter(messageContent);
-
-    if (!messageRef.current) return;
 
     messageRef.current.textContent = messageContent;
   }, [messageContent, messageStatus]);

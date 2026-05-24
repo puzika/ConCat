@@ -3,6 +3,7 @@ export const SOCKET_EVENTS = {
   DISCONNECTED: "disconnect",
   MESSAGE_RECEIVED: "message:received",
   MESSAGE_DELETED: "message:deleted",
+  MESSAGE_UPDATED: "message:updated",
 } as const;
 
 export type SocketEvent = typeof SOCKET_EVENTS[keyof typeof SOCKET_EVENTS];

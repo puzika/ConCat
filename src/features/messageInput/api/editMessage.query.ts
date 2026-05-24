@@ -26,7 +26,7 @@ export const useEditMessage = (chatId: number) => {
 
       const updatedChat: Message[] = previousChat?.messages.map(msg => {
         return msg.id === id ?
-          { ...msg, content, id: -1 } :
+          { ...msg, content, modified_at: new Date().toISOString(), id: -1 } :
           msg
       });
       

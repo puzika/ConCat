@@ -27,6 +27,7 @@ export const MessageActionDetails = styled.div`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  min-width: 0;
   flex: 1;
   padding: .8rem 0;
 `

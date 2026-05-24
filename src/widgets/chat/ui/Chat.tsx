@@ -39,7 +39,7 @@ const ChatWindow = memo(({ messages }: ChatWindowProps) => {
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
   const userId = useAppSelector(selectUserId);
   useMessageStream();
-  
+
   return (
     <S.ChatWindow >
       <S.ChatMessages 
@@ -48,7 +48,7 @@ const ChatWindow = memo(({ messages }: ChatWindowProps) => {
         onScroll={handleScrollDown.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >
         { messages ? (
-            messages.map(({ id, content, sender_id, created_at, modified_at }) => (
+            messages.map(({ id, content, sender_id, created_at, modified_at, parent_message }) => (
               <Message 
                 edited={created_at !== modified_at}
                 key={id}
@@ -57,6 +57,7 @@ const ChatWindow = memo(({ messages }: ChatWindowProps) => {
                 messageType={sender_id === userId ? 'sent' : 'received' }
                 message={content}
                 timestamp={created_at}
+                parent={parent_message}
               />
             ))
           ) : (

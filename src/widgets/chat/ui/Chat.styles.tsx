@@ -46,6 +46,7 @@ export const ChatMessages = styled.div`
   align-items: flex-start;
   gap: 1rem;
   padding: ${vars.primaryPadding};
+  scroll-behavior: smooth;
   overflow-y: auto;
 `;
 

@@ -17,8 +17,8 @@ export const Router = () => {
           <Route path="chat/:chatId" element={<ChatPage />} />
         </Route>
         <Route path="/auth" element={<AuthPage />}>
-          <Route path="sign-up" element={<SignUpPage />} />
-          <Route path="sign-in" element={<SignInPage />} />
+          <Route path="signup" element={<SignUpPage />} />
+          <Route path="signin" element={<SignInPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

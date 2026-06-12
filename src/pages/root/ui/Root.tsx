@@ -1,22 +1,43 @@
-import { Outlet, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import { Sidebar } from "../../../widgets/sidebar";
-import { useAppSelector} from "../../../shared/lib/store";
-import { selectUsername } from "../../../entities/user";
+import { useCurrentUser } from "../api/current-user.query";
+import { Spinner } from "../../../shared/ui/spinner/Spinner";
+import { useAppDispatch } from "../../../shared/lib/store";
+import { updateUserInfo } from "../../../entities/user";
 import * as S from './Root.styles';
 
-export const RootPage = () => {
-  const username = useAppSelector(selectUsername);
+const Fallback = () => {
+  return (
+    <S.RootFallback>
+      <Spinner />
+      <p>Loading. Please wait...</p>
+    </S.RootFallback>
+  )
+}
 
-  if (!username) return (
-    <Navigate to="/auth/sign-in" />
+export const RootPage = () => {
+  const { data, isPending, isSuccess } = useCurrentUser();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      dispatch(updateUserInfo(data));
+    }
+  }, [dispatch, isSuccess, data]);
+  
+  if (isSuccess) return (
+    <S.Root>
+      <Sidebar />
+      <Outlet />
+    </S.Root>
+  )
+
+  if (isPending) return (
+    <Fallback />
   )
 
   return (
-    username && (
-      <S.Root>
-        <Sidebar />
-        <Outlet />
-      </S.Root>
-    )
+    <></>
   )
 }

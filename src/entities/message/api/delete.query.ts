@@ -1,14 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { baseUrl } from "../../../shared/api/url";
 import { type Chat } from "../../../widgets/chat/model/chatSchema";
-import axios from "axios";
+import { apiClient } from "../../../shared/config/axios.api";
 
 export const useDeleteMessage = (chatId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (messageId: number) => {
-      await axios.delete(`${baseUrl}/chats/${chatId}/messages/${messageId}`);
+      await apiClient.delete(`/chats/${chatId}/messages/${messageId}`);
     },
 
     onMutate: async (messageId) => {

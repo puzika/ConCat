@@ -14,6 +14,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@reduxjs/toolkit": "^2.11.2",
+    "@tanstack/react-pacer": "^0.22.1",
     "@tanstack/react-query": "^5.90.21",
     "axios": "^1.13.5",
     "components": "^0.1.0",
@@ -45,6 +46,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "babel-jest": "^30.2.0",
+    "babel-plugin-transform-vite-meta-env": "^1.0.3",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

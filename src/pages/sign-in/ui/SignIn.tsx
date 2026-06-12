@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "../../../widgets/form"
@@ -5,14 +6,12 @@ import { Input } from "../../../shared/ui/input/Input"
 import { Button } from "../../../shared/ui/button/Button"
 import { Alternative } from "../../../shared/ui/alternative/Alternative"
 import { Spinner } from "../../../shared/ui/spinner/Spinner"
-import { useAppDispatch } from "../../../shared/lib/store"
-import { updateUserInfo } from "../../../entities/user"
+import { useSignin } from "../api/signup.query"
 import { useNavigate } from "react-router-dom"
 import { signInSchema, type TSignInSchema } from "../model/definitions"
 
 export const SignInPage = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -21,20 +20,18 @@ export const SignInPage = () => {
   } = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema)
   })
+  const { mutate, isSuccess, isError, error } = useSignin();
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/', { replace: true });
+    }
+  }, [isSuccess]);
+    
 
   const submitHandler = async (data: TSignInSchema) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    //MOCKING SIGN IN
-
-    const { email } = data;
-
-    const id = email === 'pj@gmail.com' ? 1 : 2;
-    const username = email === 'pj@gmail.com' ? "Patrick Jane" : "Teresa Lisbon";
-
+    mutate(data);
     reset();
-    dispatch(updateUserInfo({ id, username}));
-    navigate("/");
   }
 
   return (
@@ -73,7 +70,7 @@ export const SignInPage = () => {
       <Alternative 
         message={"Don't have an account yet?"}
         name={"Sign up"}
-        link={"/auth/sign-up"}
+        link={"/auth/signup"}
       />
     </>
   )

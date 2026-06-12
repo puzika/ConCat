@@ -11,7 +11,6 @@ export const useMessageStream = () => {
   const queryClient = useQueryClient();
   const { chatId: unformattedChatId } = useParams();
   const chatId = Number(unformattedChatId);
-  console.log('whatup');
 
   useEffect(() => {
     socket.on(SOCKET_EVENTS.MESSAGE_RECEIVED, data => {

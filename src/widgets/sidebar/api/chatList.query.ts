@@ -1,14 +1,11 @@
-import axios from "axios";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
-import { baseUrl } from "../../../shared/api/url";
 import { chatListSchema } from "../model/chatListSchema";
+import { apiClient } from "../../../shared/config/axios.api";
 
 const chatListQueryOptions = (id: number) => queryOptions({
   queryKey: ['chatList', { userId: id }] as const,
-  queryFn: async ({ queryKey }) => {
-    const [_key, { userId }] = queryKey;
-
-    const response = await axios.get(`${baseUrl}/chats?user=${userId}`);
+  queryFn: async () => {
+    const response = await apiClient.get(`/chats?user=${id}`);
     const { data } = response;
 
     const users = chatListSchema.parse(data);

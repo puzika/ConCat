@@ -11,16 +11,10 @@ import { useChatList } from '../api/chatList.query';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
 import { AxiosError } from 'axios';
-import { Navigate } from 'react-router-dom';
 import * as S from './Sidebar.styles';
 
 const Chats = () => {
-  const id = useAppSelector(selectUserId);
-
-  if (!id) return (
-    <Navigate to="/auth/sign-in" />
-  )
-
+  const id = useAppSelector(selectUserId) ?? -1;
   const { data } = useChatList(id);
   const scrollTargetRef = useRef<HTMLUListElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);

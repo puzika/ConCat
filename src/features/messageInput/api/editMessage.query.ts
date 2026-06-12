@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { baseUrl } from "../../../shared/api/url";
 import { type Message, type EditedMessage } from "../../../entities/message/model/messageSchema";
-import axios from "axios";
+import { apiClient } from "../../../shared/config/axios.api";
 
 type ChatCache = {
   messages: Message[],
@@ -13,7 +12,7 @@ export const useEditMessage = (chatId: number) => {
 
   return useMutation({
     mutationFn: async ({id, content}: EditedMessage) => {
-      const response = await axios.patch(`${baseUrl}/chats/${chatId}/messages/${id}`, { content });
+      const response = await apiClient.patch(`/chats/${chatId}/messages/${id}`, { content });
       return response.data;
     },
 

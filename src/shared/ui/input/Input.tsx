@@ -1,4 +1,4 @@
-import type { FieldError } from 'react-hook-form';
+import { type FieldError } from 'react-hook-form';
 import { useState, forwardRef, type ChangeEvent, type InputHTMLAttributes } from 'react'
 import { BiSolidHide as HidePassword, BiSolidShow as ShowPassword } from "react-icons/bi";
 import * as S from './Input.styles'
@@ -26,21 +26,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const {
       placeholder, 
       type, 
-      onChange,
       error,
       testid,
       ...rest
     } = props;
 
     const [hide, setHide] = useState<boolean>(type === 'password');
-    const [filled, setFilled] = useState<boolean>(false);
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.currentTarget;
-      setFilled(value !== "");
-      
-      if (onChange) onChange(e);
-    }
 
     const inputType = type === 'password' ?
       (hide ? 'password' : 'text') :
@@ -48,14 +39,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <S.Input data-testid={testid}>
-        <S.InputLabel className={ filled ? 'filled' : '' }>{ placeholder }</S.InputLabel>
         <S.InputField
           {...rest}
+          placeholder={placeholder}
           ref={ref}
           data-testid="input-field"
-          onChange={handleChange}
           type={inputType}
         />
+        <S.InputLabel>{ placeholder }</S.InputLabel>
         { 
           type === 'password' && 
           <PasswordButton 

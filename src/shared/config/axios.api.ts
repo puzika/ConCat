@@ -1,6 +1,8 @@
 import { baseUrl } from "../api/url";
 import axios, { type AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
 
+export const SESSION_EXPIRED_EVENT = 'auth:session_expired';
+
 const apiClient = axios.create({
   baseURL: baseUrl,
   withCredentials: true,
@@ -64,7 +66,7 @@ apiClient.interceptors.response.use(
           processQueue(refreshError, false);
         }
 
-        window.dispatchEvent(new Event('auth:session_expired'));
+        window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT));
         
         return Promise.reject(refreshError);
       }

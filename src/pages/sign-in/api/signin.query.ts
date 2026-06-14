@@ -1,26 +1,26 @@
 import { useMutation } from "@tanstack/react-query";
-import { useAppDispatch } from "../../../shared/lib/store";
-import { useNavigate } from "react-router-dom";
+import { type TSignInSchema as SigninBody } from "../model/definitions";
+import { apiClient } from "../../../shared/config/axios.api";
 import { useQueryClient } from "@tanstack/react-query";
-import { type TSignUpSchema as SignupBody } from "../model/definitions";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../../shared/lib/store";
 import { userSchema } from "../../../entities/user/model/userSchema";
 import { updateUserInfo } from "../../../entities/user";
-import { apiClient } from "../../../shared/config/axios.api";
 import axios from "axios";
 
-export const useSignup = () => {
+export const useSignin = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: SignupBody) => {
+    mutationFn: async (data: SigninBody) => {
       try {
-        const response = await apiClient.post(`/auth/signup`, data, { withCredentials: true });
+        const response = await apiClient.post(`/auth/signin`, data);
         const parsedData = userSchema.parse(response.data);
 
         return parsedData;
-      } catch(error) {
+      } catch (error) {
         if (axios.isAxiosError(error)) {
           throw error.response?.data ?? error;
         }
@@ -38,7 +38,7 @@ export const useSignup = () => {
     },
 
     onError(error) {
-      console.log("Error occurred during sign up: ", error.message);
+      console.log("Error occurred during sign in: ", error.message);
     }
   });
 }

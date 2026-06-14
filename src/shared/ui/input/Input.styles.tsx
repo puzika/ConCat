@@ -32,16 +32,20 @@ export const InputLabel = styled.span`
   translate: 0 -50%;
   color: ${vars.fontClrLt};
   transition: all .2s;
-
-  &.filled {
-    ${labelMinimized};
-  }
 `;
 
 export const InputField = styled.input`
   flex: 1;
   padding: 1rem .5rem;
   background-color: transparent;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:not(:placeholder-shown) ~ span {
+    ${labelMinimized};
+  }
 `;
 
 export const PasswordButton = styled.button`

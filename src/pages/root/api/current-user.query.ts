@@ -10,7 +10,9 @@ const currentUserQueryOptions = () => queryOptions({
     const parsedData = userSchema.parse(data);
 
     return parsedData;
-  }
+  },
+
+  staleTime: 1000 * 60 * 5,
 });
 
 export const useCurrentUser = () => useQuery(currentUserQueryOptions());

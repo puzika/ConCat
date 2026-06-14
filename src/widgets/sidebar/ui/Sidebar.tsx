@@ -1,4 +1,5 @@
 import { useRef, useState, Suspense } from 'react';
+import { useDebouncedValue } from '@tanstack/react-pacer';
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import { ChatItem } from '../../../entities/chatItem';
 import { SearchBar } from '../../../features/searchBar';
@@ -52,6 +53,9 @@ const Chats = () => {
 }
 
 export const Sidebar = () => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [debouncedSearchTerm] = useDebouncedValue(searchTerm, { wait: 300 });
+
   const handleError = ({ error, resetErrorBoundary }: FallbackProps) => {
     if (error instanceof AxiosError) return (
       <ErrorMessage 
@@ -71,7 +75,10 @@ export const Sidebar = () => {
   return (
     <S.Sidebar>
       <S.SidebarHeader>
-        <SearchBar />
+        <SearchBar 
+          searchTerm={searchTerm} 
+          searchTermSetter={setSearchTerm}
+        />
       </S.SidebarHeader>
       <S.SidebarChatsContainer>
         <QueryErrorResetBoundary>

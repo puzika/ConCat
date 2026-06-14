@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "../../../widgets/form"
@@ -6,12 +5,11 @@ import { Input } from "../../../shared/ui/input/Input"
 import { Button } from "../../../shared/ui/button/Button"
 import { Alternative } from "../../../shared/ui/alternative/Alternative"
 import { Spinner } from "../../../shared/ui/spinner/Spinner"
-import { useSignin } from "../api/signup.query"
-import { useNavigate } from "react-router-dom"
+import { ErrorPopup } from "../../../shared/ui/errorPopup/ErrorPopup"
+import { useSignin } from "../api/signin.query"
 import { signInSchema, type TSignInSchema } from "../model/definitions"
 
 export const SignInPage = () => {
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,14 +18,7 @@ export const SignInPage = () => {
   } = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema)
   })
-  const { mutate, isSuccess, isError, error } = useSignin();
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate('/', { replace: true });
-    }
-  }, [isSuccess]);
-    
+  const { mutate, error } = useSignin();
 
   const submitHandler = async (data: TSignInSchema) => {
     mutate(data);
@@ -36,6 +27,7 @@ export const SignInPage = () => {
 
   return (
     <>
+      <ErrorPopup errorMessage={error?.message} />
       <Form title="Sign in" submitHandler={handleSubmit(submitHandler)}>
         <Input 
           {...register("email")}

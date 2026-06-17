@@ -1,7 +1,7 @@
-import { useRef, useState, Suspense } from 'react';
+import { useRef, useState, Suspense, type ReactNode } from 'react';
 import { useDebouncedValue } from '@tanstack/react-pacer';
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
-import { ChatItem } from '../../../entities/chatItem';
+import { OldChatItem, NewChatItem } from '../../../entities/chatItem';
 import { SearchBar } from '../../../features/searchBar';
 import { ScrollBtn } from '../../../features/scrollBtn';
 import { Spinner } from '../../../shared/ui/spinner/Spinner';
@@ -11,28 +11,19 @@ import { handleScrollUp } from '../../../shared/lib/utils/handlers';
 import { useChatList } from '../api/chatList.query';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
+import { selectIsActive } from '../model/search.slice';
 import { AxiosError } from 'axios';
+import { ZodError } from 'zod';
+import { useUsers } from '../api/usersList.query';
 import * as S from './Sidebar.styles';
 
-const Chats = () => {
-  const id = useAppSelector(selectUserId) ?? -1;
-  const { data } = useChatList(id);
+type SidebarItemListProps = {
+  children?: ReactNode | ReactNode[]
+}
+
+const SidebarItemList = ({ children }: SidebarItemListProps) => {
   const scrollTargetRef = useRef<HTMLUListElement>(null);
   const [scrollBtnVisible, setScrollBtnVisible] = useState<boolean>(false);
-
-  const chats = data.map(({ participant_one, participant_two, id: chatId }) => {
-    const user = participant_one.id !== id ? participant_one : participant_two;
-
-    return (
-      <li key={user.id}>
-        <ChatItem
-          chatId={chatId}
-          chatname={ user.username }
-          mostRecentMsg='Most recent message in the chat'
-        />
-      </li>
-    )
-  });
 
   return (
     <>
@@ -41,7 +32,7 @@ const Chats = () => {
         ref={scrollTargetRef}
         onScroll={handleScrollUp.bind(null, scrollTargetRef, setScrollBtnVisible)}
       >
-        { chats }
+        { children }
       </S.SidebarChats>
       <ScrollBtn 
         direction='up' 
@@ -52,12 +43,75 @@ const Chats = () => {
   )
 }
 
+const Chats = () => {
+  const id = useAppSelector(selectUserId) ?? -1;
+  const { data } = useChatList(id);
+
+  const chats = data.map(({ participant_one, participant_two, id: chatId }) => {
+    const user = participant_one.id !== id ? participant_one : participant_two;
+
+    return (
+      <li key={user.id}>
+        <OldChatItem
+          chatId={chatId}
+          chatname={ user.username }
+          mostRecentMsg='Most recent message in the chat'
+        />
+      </li>
+    )
+  });
+
+  return (
+    <SidebarItemList>{ chats }</SidebarItemList>
+  )
+}
+
+type SearchResultsProps = {
+  debouncedSearchTerm: string
+}
+
+const SearchResults = ({ debouncedSearchTerm }: SearchResultsProps) => {
+  const { data } = useUsers(debouncedSearchTerm);
+  const userId = useAppSelector(selectUserId);
+
+  if (!data) return (
+    <></>
+  );
+
+  const chats = data.map(({ username, id }) => {
+    return (
+      <li key={`search-user-${id}`}>
+        <NewChatItem
+          currUserId={userId ?? -1}
+          targetUserId={id ?? -1}
+          chatname={ username }
+          mostRecentMsg='Most recent message in the chat'
+        />
+      </li>
+    )
+  });
+
+  return (
+    <>
+      <SidebarItemList>{ chats }</SidebarItemList>
+    </>
+  )
+}
+
 export const Sidebar = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [debouncedSearchTerm] = useDebouncedValue(searchTerm, { wait: 300 });
+  const isActive = useAppSelector(selectIsActive);
 
   const handleError = ({ error, resetErrorBoundary }: FallbackProps) => {
     if (error instanceof AxiosError) return (
+      <ErrorMessage 
+        message={error.response?.data ?? error.message}
+        reset={resetErrorBoundary}
+      />
+    )
+
+    if (error instanceof ZodError) return (
       <ErrorMessage 
         message={error.message}
         reset={resetErrorBoundary}
@@ -81,23 +135,29 @@ export const Sidebar = () => {
         />
       </S.SidebarHeader>
       <S.SidebarChatsContainer>
-        <QueryErrorResetBoundary>
-          {({ reset }) => (
-            <ErrorBoundary 
-              onReset={reset}
-              fallbackRender={handleError}
-            >
-              <Suspense fallback={
-                <>
-                  <Spinner/>
-                  <p>...Loading your chats</p>
-                </>
-              }>
-                <Chats />
-              </Suspense>
-            </ErrorBoundary>
-          )}
-        </QueryErrorResetBoundary>
+        {
+          isActive ? (
+            <SearchResults debouncedSearchTerm={debouncedSearchTerm}/>
+          ) : (
+            <QueryErrorResetBoundary>
+              {({ reset }) => (
+                <ErrorBoundary 
+                  onReset={reset}
+                  fallbackRender={handleError}
+                >
+                  <Suspense fallback={
+                    <>
+                      <Spinner/>
+                      <p>...Loading your chats</p>
+                    </>
+                  }>
+                    <Chats />
+                  </Suspense>
+                </ErrorBoundary>
+              )}
+            </QueryErrorResetBoundary>
+          )
+        }
       </S.SidebarChatsContainer>
     </S.Sidebar>
   )

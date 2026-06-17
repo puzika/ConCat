@@ -1,1 +1,1 @@
-export { ChatItem } from './ui/ChatItem';
+export { OldChatItem, NewChatItem } from './ui/ChatItem';

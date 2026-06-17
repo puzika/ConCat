@@ -9,7 +9,7 @@ const ellipsis = css`
   overflow: hidden;
 `;
 
-export const ChatItem = styled(Link)`
+export const ChatItem = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -20,6 +20,10 @@ export const ChatItem = styled(Link)`
   &:hover {
     background-color: ${vars.primaryClrLt};
   }
+`;
+
+export const ChatItemOld = styled(Link)`
+  display: block;
 `;
 
 export const ChatItemDescription = styled.div`

@@ -1,25 +1,25 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 type SearchState = {
-  active: boolean,
+  isActive: boolean,
 }
 
 const initialState: SearchState = {
-  active: false,
+  isActive: false,
 }
 
 const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    setSearchState(state, action: PayloadAction<boolean>) {
-      state.active = action.payload;
+    setIsActive(state, action: PayloadAction<boolean>) {
+      state.isActive = action.payload;
     }
   }
 });
 
-export const { setSearchState } = searchSlice.actions;
+export const { setIsActive } = searchSlice.actions;
 
-export const selectSearchState = (state: RootState) => {}  
+export const selectIsActive = (state: RootState) => state.searchReducer.isActive;  
 
 export const { reducer: searchReducer } = searchSlice;

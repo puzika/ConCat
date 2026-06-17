@@ -9,6 +9,7 @@ import { handleScrollDown } from '../../../shared/lib/utils/handlers';
 import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
 import { useMessageStream } from '../model/useMessageStream';
+import { ErrorPopup } from '../../../shared/ui/errorPopup/ErrorPopup';
 import { type Message as TMessage } from '../../../entities/message/model/messageSchema';
 import * as S from './Chat.styles';
 
@@ -79,24 +80,28 @@ const ChatWindow = memo(({ messages }: ChatWindowProps) => {
 
 export const Chat = () => {
   const { chatId } = useParams();
-  const { data, isLoading, isSuccess } = useChat(Number(chatId));
-  const { messages, participant_one, participant_two } = isSuccess ? data: {};
+  const { data, isLoading, isSuccess, error } = useChat(Number(chatId));
+  const { messages, participant_one, participant_two } = isSuccess ? data : {};
   const userName = useAppSelector(selectUserId) !== participant_one?.id ? 
     participant_one?.username : 
     participant_two?.username;
 
   return (
-    <S.Chat>
-      <ChatPanel
-        isLoading={isLoading}
-        username={userName}
-        lastSeen={"recently"}
-      />
-      <ChatWindow 
-        messages={messages}
-        isLoading={isLoading}
-      />
-      <MessageBar />
-    </S.Chat>
+    error ? (
+      <ErrorPopup errorMessage={error.message} />
+    ) : (
+      <S.Chat>
+        <ChatPanel
+          isLoading={isLoading}
+          username={userName}
+          lastSeen={"recently"}
+        />
+        <ChatWindow 
+          messages={messages}
+          isLoading={isLoading}
+        />
+        <MessageBar />
+      </S.Chat>
+    )
   )
 }

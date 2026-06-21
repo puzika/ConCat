@@ -2,19 +2,17 @@ import { Avatar } from '../../../shared/ui/avatar/Avatar';
 import { useCreateChat } from '../api/createChat.query';
 import { ErrorPopup } from '../../../shared/ui/errorPopup/ErrorPopup';
 import * as S from './ChatItem.styles';
+import { useOnline } from '../api/useOnline';
 
 type OldChatItemProps = {
   chatId: number,
 }
 
-type NewChatItemProps = {
-  currUserId: number,
-  targetUserId: number,
-}
-
 type ChatItemProps = {
   chatname: string,
+  currUserId: number,
   mostRecentMsg: string,
+  targetUserId: number,
 }
 
 const ChatItem = (props: ChatItemProps) => {
@@ -25,13 +23,16 @@ const ChatItem = (props: ChatItemProps) => {
       <Avatar />
       <S.ChatItemDescription>
         <S.ChatItemName>{ chatname }</S.ChatItemName>
-        <S.ChatItemLastMessage>{ mostRecentMsg || "No messages here yet" }</S.ChatItemLastMessage>
+        <S.ChatItemLastSeen>{ mostRecentMsg }</S.ChatItemLastSeen>
       </S.ChatItemDescription>
     </S.ChatItem>
   )
 }
 
 export const OldChatItem = ({ chatId, ...props}: ChatItemProps & OldChatItemProps) => {
+  const { targetUserId, currUserId } = props;
+  useOnline({ targetUserId, currUserId });
+
   return (
     <S.ChatItemOld to={`/chat/${chatId}`}>
       <ChatItem {...props} />
@@ -39,7 +40,7 @@ export const OldChatItem = ({ chatId, ...props}: ChatItemProps & OldChatItemProp
   )
 }
 
-export const NewChatItem = (props: ChatItemProps & NewChatItemProps) => {
+export const NewChatItem = (props: ChatItemProps) => {
   const { currUserId, targetUserId } = props;
   const { mutate, error } = useCreateChat();
 

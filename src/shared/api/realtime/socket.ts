@@ -6,4 +6,5 @@ export const socket = io(URL, {
   autoConnect: false,
   reconnection: true,
   reconnectionAttempts: 5,
+  withCredentials: true,
 });

@@ -48,14 +48,16 @@ const Chats = () => {
   const { data } = useChatList(id);
 
   const chats = data.map(({ participant_one, participant_two, id: chatId }) => {
-    const user = participant_one.id !== id ? participant_one : participant_two;
+    const { id: userId, username, is_online} = participant_one.id !== id ? participant_one : participant_two;
 
     return (
-      <li key={user.id}>
+      <li key={`chat-user-${userId}`}>
         <OldChatItem
           chatId={chatId}
-          chatname={ user.username }
-          mostRecentMsg='Most recent message in the chat'
+          targetUserId={userId ?? -1}
+          currUserId={id}
+          chatname={ username }
+          mostRecentMsg={ is_online ? 'Online' : 'Last seen recently' }
         />
       </li>
     )

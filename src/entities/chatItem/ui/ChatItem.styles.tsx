@@ -39,7 +39,7 @@ export const ChatItemName = styled.p`
   ${ ellipsis };
 `;
 
-export const ChatItemLastMessage = styled.p`
+export const ChatItemLastSeen = styled.p`
   font-size: 1.3rem;
   color: ${vars.fontClrLt};
   ${ ellipsis };

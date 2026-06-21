@@ -25,7 +25,8 @@ export const useUsers = (searchTerm: string) => {
         throw error;
       }
     },
-
+    staleTime: 0,
+    gcTime: 0,
     enabled: searchTerm.length > 0,
   });
 }

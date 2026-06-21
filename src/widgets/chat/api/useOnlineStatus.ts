@@ -20,9 +20,9 @@ export const useOnlineStatus = (chatId: number, targetUserId: number) => {
 
           targetParticipant.is_online = isOnline;
 
-          // if (!lastSeen) return;
+          if (!lastSeen) return;
 
-          // targetParticipant.last_seen = lastSeen;
+          targetParticipant.last_seen = lastSeen;
         });
       });
     }

@@ -10,6 +10,8 @@ import { useAppSelector } from '../../../shared/lib/store';
 import { selectUserId } from '../../../entities/user';
 import { useMessageStream } from '../model/useMessageStream';
 import { ErrorPopup } from '../../../shared/ui/errorPopup/ErrorPopup';
+import { formatTime } from '../../../shared/lib/utils/timeFormatter';
+import { useOnlineStatus } from '../api/useOnlineStatus';
 import { type Message as TMessage } from '../../../entities/message/model/messageSchema';
 import * as S from './Chat.styles';
 
@@ -24,7 +26,7 @@ const ChatPanel = ({ isLoading, username, lastSeen }: ChatPanelProps) => {
     <S.ChatPanel>
       <S.ChatPanelUserInfo>
         <S.ChatPanelUserName>{ isLoading ? "Connecting..." : username }</S.ChatPanelUserName>
-        <S.ChatPanelUserLastSeen>Last seen { isLoading ? "..." : lastSeen }</S.ChatPanelUserLastSeen>
+        <S.ChatPanelUserLastSeen>{ isLoading ? "..." : lastSeen }</S.ChatPanelUserLastSeen>
       </S.ChatPanelUserInfo>
     </S.ChatPanel>
   )
@@ -82,9 +84,10 @@ export const Chat = () => {
   const { chatId } = useParams();
   const { data, isLoading, isSuccess, error } = useChat(Number(chatId));
   const { messages, participant_one, participant_two } = isSuccess ? data : {};
-  const userName = useAppSelector(selectUserId) !== participant_one?.id ? 
-    participant_one?.username : 
-    participant_two?.username;
+  const targetParticipant = useAppSelector(selectUserId) !== participant_one?.id ? participant_one : participant_two;
+  const { username, is_online, last_seen } = targetParticipant || {};
+  const formattedTime = formatTime(last_seen);
+  useOnlineStatus(Number(chatId), targetParticipant?.id ?? -1);
 
   return (
     error ? (
@@ -93,8 +96,8 @@ export const Chat = () => {
       <S.Chat>
         <ChatPanel
           isLoading={isLoading}
-          username={userName}
-          lastSeen={"recently"}
+          username={username}
+          lastSeen={is_online ? 'Online' : `last seen ${formattedTime || 'recently'}`}
         />
         <ChatWindow 
           messages={messages}

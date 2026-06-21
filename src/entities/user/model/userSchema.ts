@@ -4,7 +4,8 @@ export const userSchema = z.object({
   id: z.number().nullable(),
   username: z.string(),
   email: z.email(),
-  is_online: z.boolean().optional(),
+  is_online: z.boolean(),
+  last_seen: z.string().optional().nullable(),
 });
 
 export const usersSchema = z.array(userSchema);

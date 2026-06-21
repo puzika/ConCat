@@ -2,7 +2,7 @@ import { Avatar } from '../../../shared/ui/avatar/Avatar';
 import { useCreateChat } from '../api/createChat.query';
 import { ErrorPopup } from '../../../shared/ui/errorPopup/ErrorPopup';
 import * as S from './ChatItem.styles';
-import { useOnline } from '../api/useOnline';
+import { useItemOnline } from '../api/useItemOnline';
 
 type OldChatItemProps = {
   chatId: number,
@@ -31,7 +31,7 @@ const ChatItem = (props: ChatItemProps) => {
 
 export const OldChatItem = ({ chatId, ...props}: ChatItemProps & OldChatItemProps) => {
   const { targetUserId, currUserId } = props;
-  useOnline({ targetUserId, currUserId });
+  useItemOnline({ targetUserId, currUserId });
 
   return (
     <S.ChatItemOld to={`/chat/${chatId}`}>

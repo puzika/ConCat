@@ -15,6 +15,7 @@ import { selectIsActive } from '../model/search.slice';
 import { AxiosError } from 'axios';
 import { ZodError } from 'zod';
 import { useUsers } from '../api/usersList.query';
+import { formatTime } from '../../../shared/lib/utils/timeFormatter';
 import * as S from './Sidebar.styles';
 
 type SidebarItemListProps = {
@@ -48,7 +49,8 @@ const Chats = () => {
   const { data } = useChatList(id);
 
   const chats = data.map(({ participant_one, participant_two, id: chatId }) => {
-    const { id: userId, username, is_online} = participant_one.id !== id ? participant_one : participant_two;
+    const { id: userId, username, is_online, last_seen} = participant_one.id !== id ? participant_one : participant_two;
+    const formattedTime = formatTime(last_seen);
 
     return (
       <li key={`chat-user-${userId}`}>
@@ -57,7 +59,7 @@ const Chats = () => {
           targetUserId={userId ?? -1}
           currUserId={id}
           chatname={ username }
-          mostRecentMsg={ is_online ? 'Online' : 'Last seen recently' }
+          mostRecentMsg={ is_online ? 'Online' : `last seen ${formattedTime || 'recently'}` }
         />
       </li>
     )
@@ -80,14 +82,16 @@ const SearchResults = ({ debouncedSearchTerm }: SearchResultsProps) => {
     <></>
   );
 
-  const chats = data.map(({ username, id }) => {
+  const chats = data.map(({ username, id, last_seen, is_online }) => {
+    const formattedTime = formatTime(last_seen);
+
     return (
       <li key={`search-user-${id}`}>
         <NewChatItem
           currUserId={userId ?? -1}
           targetUserId={id ?? -1}
           chatname={ username }
-          mostRecentMsg='Most recent message in the chat'
+          mostRecentMsg={ is_online ? 'Online' : `last seen ${formattedTime || 'recently'}` }
         />
       </li>
     )

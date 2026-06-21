@@ -1,19 +1,16 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { type ChatListItem } from "../../../widgets/sidebar/model/chatListSchema";
+import { type StatusUpdatedPayload } from "../../../shared/model/socketEventPayloadTypes";
 import { socket } from "../../../shared/api/realtime/socket";
 import { produce } from 'immer';
 
-type StatusUpdatedPayload = {
-  isOnline: boolean,
-}
-
-export const useOnline = (participants: {currUserId: number, targetUserId: number}) => {
+export const useItemOnline = (participants: {currUserId: number, targetUserId: number}) => {
   const { currUserId, targetUserId } = participants;
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const handleStatusUpadated = ({ isOnline }: StatusUpdatedPayload) => {
+    const handleStatusUpadated = ({ isOnline, lastSeen }: StatusUpdatedPayload) => {
       queryClient.setQueryData(['chatList', { userId: currUserId }], (currChatList?: ChatListItem[]) => {
         if (!currChatList) return;
 
@@ -28,6 +25,10 @@ export const useOnline = (participants: {currUserId: number, targetUserId: numbe
             if (!targetParticipant) return;
 
             targetParticipant.is_online = isOnline;
+
+            if (!lastSeen) return;
+
+            targetParticipant.last_seen = lastSeen;
           });
 
           return mutatedChatItem;

@@ -17,6 +17,7 @@ import { ZodError } from 'zod';
 import { useUsers } from '../api/usersList.query';
 import { formatTime } from '../../../shared/lib/utils/timeFormatter';
 import * as S from './Sidebar.styles';
+import { useNewChat } from '../api/useNewChat';
 
 type SidebarItemListProps = {
   children?: ReactNode | ReactNode[]
@@ -108,6 +109,7 @@ export const Sidebar = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [debouncedSearchTerm] = useDebouncedValue(searchTerm, { wait: 300 });
   const isActive = useAppSelector(selectIsActive);
+  useNewChat();
 
   const handleError = ({ error, resetErrorBoundary }: FallbackProps) => {
     if (error instanceof AxiosError) return (

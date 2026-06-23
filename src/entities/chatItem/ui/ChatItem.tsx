@@ -20,7 +20,7 @@ const ChatItem = (props: ChatItemProps) => {
 
   return (
     <S.ChatItem>
-      <Avatar />
+      <Avatar name={chatname} />
       <S.ChatItemDescription>
         <S.ChatItemName>{ chatname }</S.ChatItemName>
         <S.ChatItemLastSeen>{ mostRecentMsg }</S.ChatItemLastSeen>

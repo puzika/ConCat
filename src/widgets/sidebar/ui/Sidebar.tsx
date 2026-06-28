@@ -7,9 +7,11 @@ import { ScrollBtn } from '../../../features/scrollBtn';
 import { Spinner } from '../../../shared/ui/spinner/Spinner';
 import { ErrorMessage } from '../../../shared/ui/errorMessage/ErrorMessage';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
+import { IoIosMenu as MenuIcon } from 'react-icons/io';
 import { handleScrollUp } from '../../../shared/lib/utils/handlers';
 import { useChatList } from '../api/chatList.query';
-import { useAppSelector } from '../../../shared/lib/store';
+import { useAppSelector, useAppDispatch } from '../../../shared/lib/store';
+import { openPopup } from '../../../shared/model/popupSlice';
 import { selectUserId } from '../../../entities/user';
 import { selectIsActive } from '../model/search.slice';
 import { AxiosError } from 'axios';
@@ -99,9 +101,21 @@ const SearchResults = ({ debouncedSearchTerm }: SearchResultsProps) => {
   });
 
   return (
-    <>
-      <SidebarItemList>{ chats }</SidebarItemList>
-    </>
+    <SidebarItemList>{ chats }</SidebarItemList>
+  )
+}
+
+const SidebarMenuBtn = () => {
+  const dispatch = useAppDispatch();
+
+  const handleClick = () => {
+    dispatch(openPopup('sidebar'));
+  }
+
+  return (
+    <S.SidebarMenuBtn onClick={handleClick} type='button'>
+      <MenuIcon />
+    </S.SidebarMenuBtn>
   )
 }
 
@@ -137,6 +151,7 @@ export const Sidebar = () => {
   return (
     <S.Sidebar>
       <S.SidebarHeader>
+        <SidebarMenuBtn />
         <SearchBar 
           searchTerm={searchTerm} 
           searchTermSetter={setSearchTerm}

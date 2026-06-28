@@ -14,3 +14,4 @@ export const errorClr = "#fe686f";
 export const panelHeight = "5.8rem";
 
 export const primaryPadding = "1rem";
+export const secondaryPadding = "2rem";

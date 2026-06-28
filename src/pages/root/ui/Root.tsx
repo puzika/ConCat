@@ -7,6 +7,7 @@ import { Spinner } from "../../../shared/ui/spinner/Spinner";
 import { useAppDispatch } from "../../../shared/lib/store";
 import { updateUserInfo } from "../../../entities/user";
 import { SESSION_EXPIRED_EVENT } from "../../../shared/config/axios.api";
+import { PopupSidebar } from "../../../features/popupSidebar";
 import * as S from './Root.styles';
 
 const Fallback = () => {
@@ -40,6 +41,7 @@ export const RootPage = () => {
   
   if (isSuccess) return (
     <S.Root>
+      <PopupSidebar />
       <Sidebar />
       <Outlet />
     </S.Root>

@@ -22,8 +22,8 @@ export const useRealtimeConnection = (authenticated: boolean) => {
 
     return () => {
       socket.disconnect();
-      socket.removeListener(SOCKET_EVENTS.CONNECTED);
-      socket.removeListener(SOCKET_EVENTS.DISCONNECTED);
+      socket.off(SOCKET_EVENTS.CONNECTED);
+      socket.off(SOCKET_EVENTS.DISCONNECTED);
     }
   }, [authenticated]);
 };

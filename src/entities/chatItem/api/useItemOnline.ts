@@ -41,7 +41,7 @@ export const useItemOnline = (participants: {currUserId: number, targetUserId: n
     socket.on(`status:updated:${targetUserId}`, handleStatusUpadated);
 
     return () => {
-      socket.removeListener(`online:${targetUserId}`, handleStatusUpadated);
+      socket.off(`online:${targetUserId}`, handleStatusUpadated);
     }
   }, []);
 }

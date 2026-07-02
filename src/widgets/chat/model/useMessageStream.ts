@@ -65,9 +65,9 @@ export const useMessageStream = () => {
     })
 
     return () => {
-      socket.removeListener(SOCKET_EVENTS.MESSAGE_RECEIVED);
-      socket.removeListener(SOCKET_EVENTS.MESSAGE_UPDATED);
-      socket.removeListener(SOCKET_EVENTS.MESSAGE_DELETED);
+      socket.off(SOCKET_EVENTS.MESSAGE_RECEIVED);
+      socket.off(SOCKET_EVENTS.MESSAGE_UPDATED);
+      socket.off(SOCKET_EVENTS.MESSAGE_DELETED);
     }
   }, []);
 }

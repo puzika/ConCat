@@ -30,7 +30,7 @@ export const useOnlineStatus = (chatId: number, targetUserId: number) => {
     socket.on(`status:updated:${targetUserId}`, handleStatusUpdated);
 
     return () => {
-      socket.removeListener(`status:updated:${targetUserId}`, handleStatusUpdated);
+      socket.off(`status:updated:${targetUserId}`, handleStatusUpdated);
     }
   }, [targetUserId, chatId]);
 }

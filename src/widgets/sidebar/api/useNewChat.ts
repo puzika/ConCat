@@ -17,7 +17,7 @@ export const useNewChat = () => {
     socket.on(`chat:created:${id}`, handleNewChat);
 
     return () => {
-      socket.removeListener(`chat:created:${id}`, handleNewChat);
+      socket.off(`chat:created:${id}`, handleNewChat);
     }
   });
 }

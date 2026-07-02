@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../../shared/lib/store';
-import { closePopup, selectPopupIsOpen } from '../../../shared/model/popupSlice';
+import { closePopup, openPopup, selectPopupName } from '../../../shared/model/popupSlice';
 import { selectUsername } from '../../../entities/user';
 import { Avatar } from '../../../shared/ui/avatar/Avatar';
 import { RiAccountCircleLine as EditProfileIcon } from 'react-icons/ri';
@@ -10,23 +10,27 @@ import * as S from './PopupSidebar.styles';
 
 export const PopupSidebar = () => {
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(selectPopupIsOpen);
+  const popupName = useAppSelector(selectPopupName);
   const username = useAppSelector(selectUsername);
 
   const handleClickOverlay = () => {
     dispatch(closePopup());
   }
 
+  const handleClickEditProfile = () => {
+    dispatch(openPopup('profile'));
+  }
+
   return (
     <>
-      <Overlay isShown={isOpen} clickHandler={handleClickOverlay} />
-      <S.PopupSidebar $isOpen={isOpen}>
+      <Overlay isShown={popupName === 'sidebar'} clickHandler={handleClickOverlay} />
+      <S.PopupSidebar $isOpen={popupName === 'sidebar'}>
         <S.PopupSidebarUserData>
           <Avatar name={username} size={5} />
           <p>{username}</p>
         </S.PopupSidebarUserData>
         <S.PopupSidebarList>
-          <S.PopupSidebarItem>
+          <S.PopupSidebarItem onClick={handleClickEditProfile}>
             <S.PopupSidebarItemContent>
               <S.PopupSidebarIconContainer>
                 <EditProfileIcon />

@@ -3,6 +3,7 @@ import { useCreateChat } from '../api/createChat.query';
 import { ErrorPopup } from '../../../shared/ui/errorPopup/ErrorPopup';
 import * as S from './ChatItem.styles';
 import { useItemOnline } from '../api/useItemOnline';
+import { useUserUpdated } from '../api/useUserUpdated';
 
 type OldChatItemProps = {
   chatId: number,
@@ -32,6 +33,7 @@ const ChatItem = (props: ChatItemProps) => {
 export const OldChatItem = ({ chatId, ...props}: ChatItemProps & OldChatItemProps) => {
   const { targetUserId, currUserId } = props;
   useItemOnline({ targetUserId, currUserId });
+  useUserUpdated(targetUserId);
 
   return (
     <S.ChatItemOld to={`/chat/${chatId}`}>

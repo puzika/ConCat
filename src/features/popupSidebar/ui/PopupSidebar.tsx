@@ -6,12 +6,14 @@ import { RiAccountCircleLine as EditProfileIcon } from 'react-icons/ri';
 import { PiSignIn as SigninIcon } from 'react-icons/pi';
 import { IoIosAddCircleOutline as NewAccountIcon } from "react-icons/io";
 import { Overlay } from '../../../shared/ui/overlay/Overlay';
+import { useLogout } from '../api/useLogout';
 import * as S from './PopupSidebar.styles';
 
 export const PopupSidebar = () => {
   const dispatch = useAppDispatch();
   const popupName = useAppSelector(selectPopupName);
   const username = useAppSelector(selectUsername);
+  const { mutate } = useLogout();
 
   const handleClickOverlay = () => {
     dispatch(closePopup());
@@ -19,6 +21,10 @@ export const PopupSidebar = () => {
 
   const handleClickEditProfile = () => {
     dispatch(openPopup('profile'));
+  }
+
+  const handleClickLogout = () => {
+    mutate();
   }
 
   return (
@@ -60,7 +66,7 @@ export const PopupSidebar = () => {
               </S.PopupSidebarItemContent>
             </S.PopupSidebarLink>
           </S.PopupSidebarItem>
-          <S.PopupSidebarItem>
+          <S.PopupSidebarItem onClick={handleClickLogout}>
             <S.PopupSidebarLogoutWrapper>
               <S.PopupSidebarItemContent>
                 <S.PopupSidebarLogoutIconContainer>

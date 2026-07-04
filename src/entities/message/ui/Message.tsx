@@ -1,4 +1,4 @@
-import { type MouseEvent } from 'react';
+import { type MouseEvent, type TouchEvent, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../../../shared/lib/store';
 import { setMessageState } from '../model/messageSlice';
@@ -7,7 +7,7 @@ import { MessageActions } from './MessageActions';
 import { useMessagePopup } from './useMessagePopup';
 import { useDeleteMessage } from '../api/delete.query';
 import { formatDate } from '../model/dateFormatting';
-import {type MessageAction } from '../model/messageActions';
+import { type MessageAction } from '../model/messageActions';
 import { type Message as ParentMessage } from '../model/messageSchema';
 import { 
   RiReplyLine, 
@@ -28,6 +28,7 @@ type MessageProps = {
 }
 
 export const Message = ({ id, message, messageType, timestamp, optimistic, edited, parent }: MessageProps) => {
+  const lastTapRef = useRef<number>(0);
   const dispatch = useAppDispatch();
   const { actionsRef, showPopup } = useMessagePopup();
   const { chatId } = useParams();
@@ -35,11 +36,32 @@ export const Message = ({ id, message, messageType, timestamp, optimistic, edite
   const { mutate } = useDeleteMessage(formattedChatId);
   const formatedTimestamp = formatDate(timestamp);
 
-  const handleRightClick = (e: MouseEvent<HTMLElement>) => {
+  const handleContextMenu = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     const { clientX: x, clientY: y } = e;
     showPopup(x, y);
+  }
+
+  const handleDoubleTap = (e: TouchEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    const currTime = new Date().getTime();
+    const lastTapTime = lastTapRef.current;
+
+    if (!lastTapTime) {
+      lastTapRef.current = currTime;
+      return;
+    }
+
+    const elapsedTime = currTime - lastTapTime;
+
+    if (elapsedTime < 500 && elapsedTime > 0) {
+      const { clientX: x, clientY: y } = e.changedTouches[0];
+      showPopup(x, y);
+    }
+
+    lastTapRef.current = 0;
   }
 
   const handleCopy = async () => {
@@ -94,7 +116,12 @@ export const Message = ({ id, message, messageType, timestamp, optimistic, edite
   )
 
   return (
-    <S.Message id={`msg-${chatId}-${id}`} onContextMenu={handleRightClick} $messageType={messageType}>
+    <S.Message 
+      id={`msg-${chatId}-${id}`} 
+      onContextMenu={handleContextMenu}
+      onTouchEnd={handleDoubleTap}
+      $messageType={messageType}
+    >
       { parent && (
         <S.MessageParent onClick={navigateToParent} $messageType={messageType}>
           <S.MessageParentSender>{ parent.sender?.username}</S.MessageParentSender>

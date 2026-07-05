@@ -18,16 +18,21 @@ const chatQueryOptions = (chatId: number) => queryOptions({
       return chatData;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        throw error.response?.data ?? error;
+        const responseData = error.response?.data;
+        let errorMessage = responseData ? responseData.error : error.message;
+
+        throw new Error(errorMessage);
       }
 
       if (error instanceof ZodError) {
-        throw error.message;
+        throw new Error(error.message);
       }
 
       throw error;
     }
   },
+
+  throwOnError: false,
 });
 
 export const useChat = (chatId: number) => useQuery(chatQueryOptions(chatId));

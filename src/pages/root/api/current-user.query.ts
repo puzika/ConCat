@@ -23,7 +23,7 @@ const currentUserQueryOptions = () => queryOptions({
         throw new Error(`Data validation failed: ${error.message}`);
       }
 
-      throw error instanceof Error ? error : new Error(String(error));
+      throw error;
     }
   },
 

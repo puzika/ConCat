@@ -144,6 +144,13 @@ export const Sidebar = () => {
       />
     )
 
+    if (error instanceof Error) return (
+      <ErrorMessage 
+        message={error.message}
+        reset={resetErrorBoundary}
+      />
+    )
+
     return (
       <ErrorMessage 
         message={"Something went wrong"}

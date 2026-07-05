@@ -17,7 +17,14 @@ describe("Users", () => {
       wrapper: ({ children }) => (
         <TestWrapper 
           reducers={{ userReducer }} 
-          preloadedState={{userReducer: {id: 1, username: "Patrick Jane"} satisfies User}}
+          preloadedState={{ 
+            "userReducer": { 
+              id: 1, 
+              username: "Patrick Jane", 
+              email: "pj@gmail.com", 
+              is_online: false 
+            } satisfies User
+          }}
         >
           <Suspense>
             { children }

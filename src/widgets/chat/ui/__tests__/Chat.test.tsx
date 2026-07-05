@@ -4,13 +4,14 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Chat } from "../Chat";
 import { TestWrapper } from "../../../../shared/lib/utils/queryTestWrapper";
 import userReducer from "../../../../entities/user";
+import messageReducer from "../../../../entities/message";
 
 describe("Chat", () => {
   let chatMessages: HTMLElement;
   let chatScrollBtn: HTMLElement;
 
   beforeEach(() => {
-    render(<TestWrapper reducers={{userReducer}}><Chat /></TestWrapper>);
+    render(<TestWrapper reducers={{userReducer, messageReducer}}><Chat /></TestWrapper>);
 
     chatMessages = screen.getByTestId("chat-messages");
     chatScrollBtn = screen.getByTestId("scroll-btn");

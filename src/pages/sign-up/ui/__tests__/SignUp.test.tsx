@@ -1,16 +1,17 @@
 import "@testing-library/jest-dom/jest-globals";
 import { describe, it, beforeEach, expect } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { TestWrapper } from "../../../../shared/lib/utils/queryTestWrapper";
 import userEvent from "@testing-library/user-event";
+import userReducer from "../../../../entities/user";
 import { SignUpPage } from "../SignUp";
 
 describe("Sign-up", () => {
   beforeEach(() => {
     render(
-      <MemoryRouter>
+      <TestWrapper reducers={{userReducer}}>
         <SignUpPage />
-      </MemoryRouter>
+      </TestWrapper>
     )
   })
 

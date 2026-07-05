@@ -14,11 +14,11 @@ export const SignInPage = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<TSignInSchema>({
     resolver: zodResolver(signInSchema)
   })
-  const { mutate, error } = useSignin();
+  const { mutate, error, isPending } = useSignin();
 
   const submitHandler = async (data: TSignInSchema) => {
     mutate(data);
@@ -44,11 +44,11 @@ export const SignInPage = () => {
         />
         <Button 
           testid="submit-btn" 
-          disabled={isSubmitting} 
+          disabled={isPending} 
           buttonType='submit'
         >
           {
-            isSubmitting ? (
+            isPending ? (
               <>
                 <Spinner />
                 <span>Loading</span>

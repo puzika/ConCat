@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { apiClient } from "../../../shared/config/axios.api";
 import { createChatSchema, type TCreateChat } from "../model/createChatSchema";
+import { ZodError } from "zod";
 import axios from "axios";
 
 export const useCreateChat = () => {
@@ -15,12 +16,19 @@ export const useCreateChat = () => {
 
         return parsedData;
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          throw error.response?.data ?? error;
-        }
+      if (axios.isAxiosError(error)) {
+        const responseData = error.response?.data;
+        let errorMessage = responseData ? responseData.error : error.message;
 
-        throw error;
+        throw new Error(errorMessage);
       }
+
+      if (error instanceof ZodError) {
+        throw new Error(error.message);
+      }
+
+      throw error;
+    }
     },
 
     onSuccess(data) {

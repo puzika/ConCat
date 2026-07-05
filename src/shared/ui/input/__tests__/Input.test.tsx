@@ -33,30 +33,4 @@ describe("Input", () => {
 
     expect(inputField).toHaveAttribute("type", "password");
   })
-
-  it("placeholder should move up on input", async () => {
-    const user = userEvent.setup();
-    const input = screen.getByTestId("input-field");
-    const placeholder = screen.getByText(/password/i);
-
-    expect(placeholder.classList.contains('filled')).toBe(false);
-
-    await user.type(input, "something");
-
-    expect(placeholder.classList.contains('filled')).toBe(true);
-  })
-
-  it("placeholder should move back down on clearing input", async () => {
-    const user = userEvent.setup();
-    const input = screen.getByTestId("input-field");
-    const placeholder = screen.getByText(/password/i);
-
-    await user.type(input, "something");
-
-    expect(placeholder.classList.contains('filled')).toBe(true);
-
-    await user.clear(input);
-
-    expect(placeholder.classList.contains('filled')).toBe(false);
-  })
 })

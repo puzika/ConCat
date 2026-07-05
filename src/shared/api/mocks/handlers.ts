@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { baseUrl } from '../url';
+import type { User } from '../../../entities/user/model/userSchema';
 
 export const handlers = [
   http.get(`${baseUrl}/chats`, async ({ request }) => {
@@ -13,22 +14,34 @@ export const handlers = [
         id: 3,
         participant_one: {
           id: 1,
-          username: "Patrick Jane"
+          username: "Patrick Jane",
+          email: "pj@gmail.com",
+          is_online: false,
+          last_seen: new Date().toISOString(),
         },
         participant_two: {
           id: 2,
-          username: "Teresa Lisbon"
+          username: "Teresa Lisbon",
+          email: "tl@gmail.com",
+          is_online: false,
+          last_seen: new Date().toISOString(),
         }
       },
       {
         id: 4,
         participant_one: {
           id: 1,
-          username: "Patrick Jane"
+          username: "Patrick Jane",
+          email: "pj@gmail.com",
+          is_online: true,
+          last_seen: new Date().toISOString(),
         },
         participant_two: {
           id: 4,
-          username: "Kimball Cho"
+          username: "Kimball Cho",
+          email: "kc@gmail.com",
+          is_online: true,
+          last_seen: new Date().toISOString(),
         }
       }
     ])
@@ -42,10 +55,16 @@ export const handlers = [
       participant_one: {
         id: 1,
         username: "Patrick Jane",
+        email: "pj@gmail.com",
+        is_online: true,
+        last_seen: new Date().toISOString(),
       },
       participant_two: {
         id: 2,
         username: "Teresa Lisbon",
+        email: "tl@gmail.com",
+        is_online: false,
+        last_seen: new Date().toISOString(),
       },
       messages: []
     })

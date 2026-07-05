@@ -16,11 +16,11 @@ export const SignUpPage = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
   });
-  const { mutate, isPending, isSuccess, isError } = useSignup();
+  const { mutate, isSuccess, isPending, isError } = useSignup();
 
   useEffect(() => {
     if (isSuccess) {
@@ -63,12 +63,12 @@ export const SignUpPage = () => {
           testid="confirmPassword"
         />
         <Button 
-          disabled={isSubmitting} 
+          disabled={isPending} 
           buttonType='submit'
           testid="submit-btn"
         >
           {
-            isSubmitting ? (
+            isPending ? (
               <>
                 <Spinner />
                 <span>Loading</span>

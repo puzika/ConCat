@@ -6,6 +6,7 @@ import { type TSignUpSchema as SignupBody } from "../model/definitions";
 import { userSchema } from "../../../entities/user/model/userSchema";
 import { updateUserInfo } from "../../../entities/user";
 import { apiClient } from "../../../shared/config/axios.api";
+import { ZodError } from "zod";
 import axios from "axios";
 
 export const useSignup = () => {
@@ -20,9 +21,16 @@ export const useSignup = () => {
         const parsedData = userSchema.parse(response.data);
 
         return parsedData;
-      } catch(error) {
+      } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error.response?.data ?? error;
+          const responseData = error.response?.data;
+          let errorMessage = responseData ? responseData.error : error.message;
+
+          throw new Error(errorMessage);
+        }
+
+        if (error instanceof ZodError) {
+          throw new Error(error.message);
         }
 
         throw error;

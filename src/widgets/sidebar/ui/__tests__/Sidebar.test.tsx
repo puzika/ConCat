@@ -6,6 +6,7 @@ import { TestWrapper } from "../../../../shared/lib/utils/queryTestWrapper";
 import { server } from "../../../../shared/api/mocks/server";
 import type { User } from "../../../../entities/user/model/userSchema";
 import userReducer from "../../../../entities/user";
+import { searchReducer } from "../../model/search.slice";
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -17,7 +18,10 @@ describe("Sidebar", () => {
 
   beforeEach(async () => {
     render(
-      <TestWrapper preloadedState={{ "userReducer": { id: 1, username: "Patrick Jane"} as User }} reducers={{userReducer}}>
+      <TestWrapper 
+        preloadedState={{ "userReducer": { id: 1, username: "Patrick Jane"} as User }} 
+        reducers={{userReducer, searchReducer}}
+      >
         <Sidebar />
       </TestWrapper>
     );

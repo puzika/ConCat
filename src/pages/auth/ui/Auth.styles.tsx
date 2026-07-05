@@ -5,10 +5,9 @@ export const Auth = styled.main`
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  height: 100vh;
-  min-width: 25rem;
+  min-height: 100vh;
   max-width: 50rem;
-  width: 50%;
+  width: 90%;
   padding: 5rem 0;
   margin: 0 auto;
 `;

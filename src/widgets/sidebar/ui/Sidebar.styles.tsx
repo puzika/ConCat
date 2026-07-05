@@ -1,8 +1,12 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { vars } from "../../../shared/styles";
 import { responsive } from "../../../shared/styles/breakpoints";
 
-export const Sidebar = styled.nav`
+type SidebarStyleProps = {
+  $isRootRoute: boolean,
+}
+
+export const Sidebar = styled.nav<SidebarStyleProps>`
   position: relative;
   height: 100%;
   min-width: 30rem;
@@ -13,8 +17,14 @@ export const Sidebar = styled.nav`
   border-right: .1rem solid ${vars.primaryClrDk};
   overflow: hidden;
 
-  ${ responsive.mb`
-    display: none;
+  ${responsive.mb`
+    width: 100%;
+  `}
+
+  ${({$isRootRoute}) => !$isRootRoute && css`
+    ${responsive.mb`
+      display: none;
+    `}
   `}
 `;
 

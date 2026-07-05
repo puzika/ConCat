@@ -1,6 +1,7 @@
 import { useRef, useState, Suspense, type ReactNode } from 'react';
 import { useDebouncedValue } from '@tanstack/react-pacer';
 import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
+import { useLocation } from 'react-router-dom';
 import { OldChatItem, NewChatItem } from '../../../entities/chatItem';
 import { SearchBar } from '../../../features/searchBar';
 import { ScrollBtn } from '../../../features/scrollBtn';
@@ -18,8 +19,8 @@ import { AxiosError } from 'axios';
 import { ZodError } from 'zod';
 import { useUsers } from '../api/usersList.query';
 import { formatTime } from '../../../shared/lib/utils/timeFormatter';
-import * as S from './Sidebar.styles';
 import { useNewChat } from '../api/useNewChat';
+import * as S from './Sidebar.styles';
 
 type SidebarItemListProps = {
   children?: ReactNode | ReactNode[]
@@ -123,6 +124,9 @@ export const Sidebar = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [debouncedSearchTerm] = useDebouncedValue(searchTerm, { wait: 300 });
   const isActive = useAppSelector(selectIsActive);
+  const location = useLocation();
+  const isRootRoute = location.pathname === '/';
+
   useNewChat();
 
   const handleError = ({ error, resetErrorBoundary }: FallbackProps) => {
@@ -149,7 +153,7 @@ export const Sidebar = () => {
   }
 
   return (
-    <S.Sidebar>
+    <S.Sidebar $isRootRoute={isRootRoute}>
       <S.SidebarHeader>
         <SidebarMenuBtn />
         <SearchBar 

@@ -12,6 +12,8 @@ import { useMessageStream } from '../model/useMessageStream';
 import { ErrorPopup } from '../../../shared/ui/errorPopup/ErrorPopup';
 import { formatTime } from '../../../shared/lib/utils/timeFormatter';
 import { useOnlineStatus } from '../api/useOnlineStatus';
+import { Avatar } from '../../../shared/ui/avatar/Avatar';
+import { RedirectBtn } from '../../../shared/ui/redirectBtn/RedirectBtn';
 import { type Message as TMessage } from '../../../entities/message/model/messageSchema';
 import * as S from './Chat.styles';
 
@@ -24,10 +26,16 @@ type ChatPanelProps = {
 const ChatPanel = ({ isLoading, username, lastSeen }: ChatPanelProps) => {
   return (
     <S.ChatPanel>
-      <S.ChatPanelUserInfo>
-        <S.ChatPanelUserName>{ isLoading ? "Connecting..." : username }</S.ChatPanelUserName>
-        <S.ChatPanelUserLastSeen>{ isLoading ? "..." : lastSeen }</S.ChatPanelUserLastSeen>
-      </S.ChatPanelUserInfo>
+      <S.ChatPanelUser>
+        <S.ChatBackBtnWrapper>
+          <RedirectBtn /> 
+        </S.ChatBackBtnWrapper>
+        <Avatar size={3.8} name={username} />
+        <S.ChatPanelUserInfo>
+          <S.ChatPanelUserName>{ isLoading ? "Connecting..." : username }</S.ChatPanelUserName>
+          <S.ChatPanelUserLastSeen>{ isLoading ? "..." : lastSeen }</S.ChatPanelUserLastSeen>
+        </S.ChatPanelUserInfo>
+      </S.ChatPanelUser>
     </S.ChatPanel>
   )
 }

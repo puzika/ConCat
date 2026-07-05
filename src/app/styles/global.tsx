@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { vars } from "../../shared/styles";
+import { responsive } from "../../shared/styles/breakpoints";
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -34,6 +35,10 @@ export const GlobalStyles = createGlobalStyle`
 
   html {
     font-size: 62.5%;
+
+    ${ responsive.tb`
+      font-size: 55%;
+    `}
   }
 
   body {

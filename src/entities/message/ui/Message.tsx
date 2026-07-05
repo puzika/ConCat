@@ -48,19 +48,16 @@ export const Message = ({ id, message, messageType, timestamp, optimistic, edite
 
     const currTime = new Date().getTime();
     const lastTapTime = lastTapRef.current;
-
-    if (!lastTapTime) {
+    const elapsedTime = currTime - lastTapTime;
+    
+    if (elapsedTime > 500) {
       lastTapRef.current = currTime;
       return;
     }
 
-    const elapsedTime = currTime - lastTapTime;
-
-    if (elapsedTime < 500 && elapsedTime > 0) {
-      const { clientX: x, clientY: y } = e.changedTouches[0];
-      showPopup(x, y);
-    }
-
+    const { clientX: x, clientY: y } = e.changedTouches[0];
+    showPopup(x, y);
+    
     lastTapRef.current = 0;
   }
 
@@ -125,7 +122,7 @@ export const Message = ({ id, message, messageType, timestamp, optimistic, edite
       { parent && (
         <S.MessageParent onClick={navigateToParent} $messageType={messageType}>
           <S.MessageParentSender>{ parent.sender?.username}</S.MessageParentSender>
-          <p>{ parent.content }</p>
+          <S.MessageParentContent>{ parent.content }</S.MessageParentContent  >
         </S.MessageParent>
       )}
       <p>{ message }</p>

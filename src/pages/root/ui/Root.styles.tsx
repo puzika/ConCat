@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Root = styled.main`
   display: flex;
+  height: 100vh;
 `;
 
 export const RootFallback = styled.div`

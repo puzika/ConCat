@@ -17,10 +17,6 @@ export const Actions = styled.ul`
 `;
 
 export const ActionsItem = styled.li`
-  display: block;
-`;
-
-export const ActionsButton = styled.button`
   display: flex;
   align-items: center;
   gap: 1rem;

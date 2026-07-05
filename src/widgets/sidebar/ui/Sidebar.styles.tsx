@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { vars } from "../../../shared/styles";
+import { responsive } from "../../../shared/styles/breakpoints";
 
 export const Sidebar = styled.nav`
   position: relative;
-  height: 100vh;
+  height: 100%;
   min-width: 30rem;
   width: 25%;
   display: flex;
@@ -11,6 +12,10 @@ export const Sidebar = styled.nav`
   background-color: ${vars.primaryClr};
   border-right: .1rem solid ${vars.primaryClrDk};
   overflow: hidden;
+
+  ${ responsive.mb`
+    display: none;
+  `}
 `;
 
 export const SidebarHeader = styled.div`

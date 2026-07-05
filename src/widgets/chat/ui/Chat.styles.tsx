@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { responsive } from "../../../shared/styles/breakpoints";
 import { vars } from "../../../shared/styles";
 
 export const Chat = styled.div`
@@ -18,9 +19,25 @@ export const ChatPanel = styled.div`
   z-index: 10;
 `;
 
+export const ChatBackBtnWrapper = styled.div`
+  display: none;
+
+  ${responsive.mb`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `}
+`;
+
+export const ChatPanelUser = styled.div`
+  display: flex;
+  gap: 1.2rem;
+`;
+
 export const ChatPanelUserInfo = styled.div`
   display: flex;
   flex-direction: column;
+  gap: .5rem;
   justify-content: space-between;
 `;
 
@@ -48,12 +65,9 @@ export const ChatMessages = styled.div`
   padding: ${vars.primaryPadding};
   scroll-behavior: smooth;
   overflow-y: auto;
-`;
+  overflow-x: hidden;
 
-export const ChatMessage = styled.article<{ $messageType: 'sent' | 'received' }>`
-  padding: 2rem;
-  max-width: 50%;
-  min-width: 10rem;
-  border-radius: 1rem;
-  background-color: ${ props => props.$messageType === 'sent' ? vars.primaryClr : vars.primaryClrLtr }
+  ${ responsive.tb`
+    padding-right: 1.5rem;
+  `}
 `;

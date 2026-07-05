@@ -8,10 +8,10 @@ import { Button } from "../../../shared/ui/button/Button"
 import { Alternative } from "../../../shared/ui/alternative/Alternative"
 import { Spinner } from "../../../shared/ui/spinner/Spinner"
 import { signUpSchema, type TSignUpSchema } from "../model/definitions"
+import { ErrorPopup } from "../../../shared/ui/errorPopup/ErrorPopup"
 import { useSignup } from "../api/signup.query"
 
 export const SignUpPage = () => {
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,14 +20,8 @@ export const SignUpPage = () => {
   } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
   });
-  const { mutate, isSuccess, isPending, isError } = useSignup();
+  const { mutate, isPending, error } = useSignup();
 
-  useEffect(() => {
-    if (isSuccess) {
-      navigate('/', { replace: true });
-    }
-  }, [isSuccess]);
-  
   const submitHandler = async (signupBody: TSignUpSchema) => {
     mutate(signupBody);
     reset();
@@ -35,6 +29,7 @@ export const SignUpPage = () => {
 
   return (
     <>
+      <ErrorPopup errorMessage={error?.message} />
       <Form submitHandler={handleSubmit(submitHandler)} title="Sign up">
         <Input 
           {...register("username")} 

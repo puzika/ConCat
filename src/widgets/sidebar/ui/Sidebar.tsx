@@ -79,8 +79,12 @@ type SearchResultsProps = {
 }
 
 const SearchResults = ({ debouncedSearchTerm }: SearchResultsProps) => {
-  const { data } = useUsers(debouncedSearchTerm);
+  const { data, error, isError } = useUsers(debouncedSearchTerm);
   const userId = useAppSelector(selectUserId);
+
+  if (isError) return (
+    <ErrorMessage message={error.message} />
+  )
 
   if (!data) return (
     <></>

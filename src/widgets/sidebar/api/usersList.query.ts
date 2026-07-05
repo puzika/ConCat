@@ -15,11 +15,14 @@ export const useUsers = (searchTerm: string) => {
         return parsedData;
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          throw error.response?.data ?? error;
+          const responseData = error.response?.data;
+          let errorMessage = responseData ? responseData.error : error.message;
+
+          throw new Error(errorMessage);
         }
 
         if (error instanceof ZodError) {
-          throw error.message
+          throw new Error(error.message);
         }
 
         throw error;
@@ -28,5 +31,6 @@ export const useUsers = (searchTerm: string) => {
     staleTime: 0,
     gcTime: 0,
     enabled: searchTerm.length > 0,
+    throwOnError: false,
   });
 }

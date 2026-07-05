@@ -9,19 +9,11 @@ import { updateUserInfo } from "../../../entities/user";
 import { SESSION_EXPIRED_EVENT } from "../../../shared/config/axios.api";
 import { PopupSidebar } from "../../../features/popupSidebar";
 import { Profile } from "../../../features/profile";
+import { ErrorMessage } from "../../../shared/ui/errorMessage/ErrorMessage";
 import * as S from './Root.styles';
 
-const Fallback = () => {
-  return (
-    <S.RootFallback>
-      <Spinner />
-      <p>Loading. Please wait...</p>
-    </S.RootFallback>
-  )
-}
-
 export const RootPage = () => {
-  const { data, isPending, isSuccess } = useCurrentUser();
+  const { data, isPending, isSuccess, isError, error } = useCurrentUser();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -39,6 +31,17 @@ export const RootPage = () => {
       dispatch(updateUserInfo(data));
     }
   }, [dispatch, isSuccess, data]);
+
+  if (isError) {
+    return (
+      <S.RootFallback>
+        <ErrorMessage 
+          size={3} 
+          message={`Oops! something went wrong. ${error.message}`}
+        />
+      </S.RootFallback>
+    )
+  }
   
   if (isSuccess) return (
     <S.Root>
@@ -50,7 +53,10 @@ export const RootPage = () => {
   )
 
   if (isPending) return (
-    <Fallback />
+    <S.RootFallback>
+      <Spinner />
+      <p>Loading. Please wait...</p>
+    </S.RootFallback>
   )
 
   return (

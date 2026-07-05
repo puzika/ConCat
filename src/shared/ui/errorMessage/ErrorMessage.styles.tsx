@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { vars } from "../../styles";
 
+type ErrorMessageProps = {
+  $size: number,
+}
+
 export const ErrorMessage = styled.article`
   display: flex;
   flex-direction: column;
@@ -9,14 +13,14 @@ export const ErrorMessage = styled.article`
   color: ${vars.errorClr};
 `;
 
-export const ErrorIcon = styled.div`
+export const ErrorIcon = styled.div<ErrorMessageProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 5rem;
+  font-size: ${({$size}) => $size * 2.5}rem;
 `;
 
-export const ErrorText = styled.p`
+export const ErrorText = styled.p<ErrorMessageProps>`
   text-align: center;
-  font-size: 2rem;
+  font-size: ${({$size}) => $size}rem;
 `

@@ -12,4 +12,8 @@ export const RootFallback = styled.div`
   gap: 2rem;
   height: 100vh;
   font-size: 3rem;
+`;
+
+export const RootErrorIcon = styled.div`
+  font-size: 2rem;
 `

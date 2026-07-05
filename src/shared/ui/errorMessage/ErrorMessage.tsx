@@ -4,21 +4,24 @@ import * as S from './ErrorMessage.styles';
 
 type ErrorMessageProps = {
   message: string,
+  size?: number,
   reset?: (...args: unknown[]) => void,
 }
 
-export const ErrorMessage = ({ message, reset }: ErrorMessageProps) => {
+export const ErrorMessage = ({ message, reset, size }: ErrorMessageProps) => {
   return (
     <S.ErrorMessage>
-      <S.ErrorIcon>
+      <S.ErrorIcon $size={size ?? 2}>
         <ErrorIcon />
       </S.ErrorIcon>
-      <S.ErrorText>
+      <S.ErrorText $size={size ?? 2}>
         { message }
       </S.ErrorText>
-      <Button handler={reset} buttonType='button'>
-        Try again
-      </Button>
+      { reset && (
+        <Button handler={reset} buttonType='button'>
+          Try again
+        </Button>
+      )}
     </S.ErrorMessage>
   )
 }

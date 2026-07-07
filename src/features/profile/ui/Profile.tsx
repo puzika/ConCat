@@ -18,7 +18,7 @@ export const Profile = () => {
   const { 
     handleSubmit, 
     register, 
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<TProfileSchema>({
     resolver: zodResolver(profileSchema),
     values: {

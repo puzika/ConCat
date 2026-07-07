@@ -1,5 +1,5 @@
 import { type FieldError } from 'react-hook-form';
-import { useState, forwardRef, type ChangeEvent, type InputHTMLAttributes } from 'react'
+import { useState, forwardRef, type InputHTMLAttributes } from 'react'
 import { BiSolidHide as HidePassword, BiSolidShow as ShowPassword } from "react-icons/bi";
 import * as S from './Input.styles'
 

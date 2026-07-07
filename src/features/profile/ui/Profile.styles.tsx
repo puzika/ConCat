@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { responsive } from "../../../shared/styles/breakpoints";
 import { vars } from "../../../shared/styles";
 
 export const Profile = styled.form<{$isShown: boolean}>`
@@ -19,6 +20,10 @@ export const Profile = styled.form<{$isShown: boolean}>`
   opacity: 0;
   visibility: hidden;
   transition: all .3s;
+
+  ${responsive.mbmin`
+    width: 90%;
+  `}
 
   ${({$isShown}) => $isShown && `
     opacity: 1;

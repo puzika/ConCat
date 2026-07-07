@@ -8,6 +8,7 @@ import { ChatPage } from "../../pages/chat";
 import { AuthPage } from "../../pages/auth";
 import { SignUpPage } from "../../pages/sign-up";
 import { SignInPage } from "../../pages/sign-in";
+import { NotFound } from "../../pages/notFound";
 
 export const Router = () => {
   return (
@@ -20,6 +21,7 @@ export const Router = () => {
           <Route path="signup" element={<SignUpPage />} />
           <Route path="signin" element={<SignInPage />} />
         </Route>
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )

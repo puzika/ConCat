@@ -18,6 +18,7 @@ export const ScrollBtn = styled.button<ScrollBtnStyles>`
   font-size: 2.8rem;
   border-radius: 50%;
   background-color: ${vars.primaryClrLtr};
+  box-shadow: 0 0 .8rem 0 rgba(0, 0, 0, .6);
   transition: all .2s;
   cursor: pointer;
 

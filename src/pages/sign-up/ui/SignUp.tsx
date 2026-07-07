@@ -1,7 +1,5 @@
-import { useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
 import { Form } from "../../../widgets/form"
 import { Input } from "../../../shared/ui/input/Input"
 import { Button } from "../../../shared/ui/button/Button"

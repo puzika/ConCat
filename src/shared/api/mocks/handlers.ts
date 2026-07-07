@@ -1,6 +1,5 @@
 import { http, HttpResponse } from 'msw';
 import { baseUrl } from '../url';
-import type { User } from '../../../entities/user/model/userSchema';
 
 export const handlers = [
   http.get(`${baseUrl}/chats`, async ({ request }) => {

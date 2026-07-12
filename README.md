@@ -5,6 +5,12 @@ A full-stack real-time messaging application inspired by Telegram. The project f
 🌐 **Live Demo:** https://concat-fiqu.onrender.com/
 
 Feel free to create a new account and explore the application.
+If you want to use a ready account without having to create one, you can use one of the following:
+- Patrick Jane (email: pj@gmail.com, password: TheMentalist123!)
+- Teresa Lisbon (email: tl@gmail.com, password: Teresa123!)
+- Neal Caffrey (email: nc@gmail.com, password: Neal123!)
+
+<img width="1920" height="1080" alt="concat_screenshot" src="https://github.com/user-attachments/assets/0f2e0e55-768c-47df-8569-1174cf13e276" />
 
 ## Backend
 

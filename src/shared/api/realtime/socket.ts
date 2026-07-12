@@ -7,4 +7,5 @@ export const socket = io(URL, {
   reconnection: true,
   reconnectionAttempts: 5,
   withCredentials: true,
+  transports: ['polling'],
 });

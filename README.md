@@ -1,41 +1,82 @@
-# 💬 ConCat
+# ConCat
 
-**A full-stack real-time messaging platform built with React and NestJS.**
+A full-stack real-time messaging application inspired by Telegram. The project focuses on secure authentication, real-time communication, and a scalable frontend architecture using modern web technologies.
 
-> ⚠️ **Project Status**: Currently in active development.
-> **The backend repository is located at**: https://github.com/puzika/ConCat_server
+🌐 **Live Demo:** https://your-domain.com
 
-- [x] Basic UI Layout
-- [ ] Real-time Messaging 🚧 _In Progress_
-- [ ] JWT Authentication ⏳ _Next Up_
+## Backend
 
-### Local Installation:
+The backend source code is available here:
 
-1. clone the repository
-2. clone the backend repository above
-3. install dependencies pnpm install (or npm install)
-4. start backend by running pnpm run start:dev
-5. start client by running pnpm run dev
+➡️ https://github.com/puzika/ConCat_server
 
-Authentication is currently in progress. To bypass the login screen and access the application dashboard, use the following test credentials:
+## Features
 
-- **Test User 1**: `pj@gmail.com`
-- **Test User 2**: `tl@gmail.com`
-- **Password**: Any character string
+- 🔐 JWT authentication with Access & Refresh Tokens
+- 🛡️ Refresh Token Rotation with replay attack detection
+- 🍪 Secure, HttpOnly, SameSite=Lax cookies
+- ⚡ Automatic Access Token refresh using Axios interceptors
+- 🔄 Race-condition-safe token refresh mechanism
+- 💬 Real-time messaging with Socket.IO
+- ✏️ Send, edit, delete, and reply to messages
+- 🚀 Optimistic UI updates with TanStack Query
+- 📦 Client-side state management with Redux Toolkit
+- ✅ Client and server validation using Zod
+- 🏗️ Feature-Sliced Design (FSD) architecture
 
-Also, at the moment the backend pulls data from a local database using PostgreSQL. So, in order to use the app, for now you're going to need to have a local postgres database populated with users.
+## Tech Stack
 
-### Features to be implemented
+### Frontend
 
-1. Bidirectional text messaging
+- React
+- TypeScript
+- Redux Toolkit
+- TanStack Query
+- Axios
+- Socket.IO Client
+- React Hook Form
+- Zod
+- Feature-Sliced Design (FSD)
 
-- sending a message
-- deleting a message (gets deleted for both users)
-- editing a message
+### Backend
 
-2. JWT Authentication with Passport.js
-3. User search
-4. User profile page
-5. Editing profile
-6. audio calls / video calls
-7. attaching files
+- Node.js
+- Express
+- Socket.IO
+- JWT
+- Zod
+
+## Authentication
+
+The application implements a production-style authentication flow:
+
+- Access Tokens for API authorization
+- Refresh Tokens stored in Secure, HttpOnly cookies
+- Automatic Access Token renewal
+- Refresh Token Rotation
+- Replay attack detection
+- Session revocation using JWT IDs (JTIs)
+
+## Security
+
+- HttpOnly Cookies
+- Secure Cookies
+- SameSite=Lax Cookies
+- Runtime payload validation
+- Refresh Token Rotation
+- Replay attack prevention
+- Automatic session invalidation
+
+## Future Improvements
+
+- Group chats
+- Read receipts
+- Typing indicators
+- File uploads
+- Voice messages
+- Push notifications
+- End-to-End Encryption
+
+## License
+
+This project was built for educational and portfolio purposes.

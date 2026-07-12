@@ -2,7 +2,9 @@
 
 A full-stack real-time messaging application inspired by Telegram. The project focuses on secure authentication, real-time communication, and a scalable frontend architecture using modern web technologies.
 
-🌐 **Live Demo:** https://your-domain.com
+🌐 **Live Demo:** https://concat-fiqu.onrender.com/
+
+Feel free to create a new account and explore the application.
 
 ## Backend
 
@@ -13,7 +15,8 @@ The backend source code is available here:
 ## Features
 
 - 🔐 JWT authentication with Access & Refresh Tokens
-- 🛡️ Refresh Token Rotation with replay attack detection
+- 🔄 Refresh Token Rotation
+- 🛡️ Replay attack detection and session invalidation
 - 🍪 Secure, HttpOnly, SameSite=Lax cookies
 - ⚡ Automatic Access Token refresh using Axios interceptors
 - 🔄 Race-condition-safe token refresh mechanism
@@ -30,6 +33,8 @@ The backend source code is available here:
 
 - React
 - TypeScript
+- Styled-components
+- React Router
 - Redux Toolkit
 - TanStack Query
 - Axios
@@ -40,15 +45,17 @@ The backend source code is available here:
 
 ### Backend
 
-- Node.js
-- Express
+- Nestjs
 - Socket.IO
 - JWT
+- Passport.js
 - Zod
+- Prisma
+- PostgreSQL
 
 ## Authentication
 
-The application implements a production-style authentication flow:
+The authentication system includes:
 
 - Access Tokens for API authorization
 - Refresh Tokens stored in Secure, HttpOnly cookies
@@ -59,24 +66,22 @@ The application implements a production-style authentication flow:
 
 ## Security
 
-- HttpOnly Cookies
-- Secure Cookies
-- SameSite=Lax Cookies
-- Runtime payload validation
+- Secure, HttpOnly, SameSite=Lax cookies
 - Refresh Token Rotation
-- Replay attack prevention
-- Automatic session invalidation
+- Replay attack detection
+- Runtime payload validation
+- Session revocation via JWT IDs (JTIs)
+
+## Architecture
+
+- Feature-Sliced Design (FSD) frontend architecture
+- REST API for authentication and data fetching
+- Socket.IO for real-time communication
+- TanStack Query for server state management
+- Redux Toolkit for client-side UI state
 
 ## Future Improvements
 
-- Group chats
-- Read receipts
-- Typing indicators
-- File uploads
-- Voice messages
-- Push notifications
-- End-to-End Encryption
-
-## License
-
-This project was built for educational and portfolio purposes.
+- Scheduled cleanup of expired/used refresh tokens
+- File attachments
+- Audio and video calls (simple-peer)
